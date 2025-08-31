@@ -18,7 +18,7 @@
 
 ### 🛠 Tools  
 <p align="left">
-  <img src="https://skillicons.dev/icons?i=html,css,js,nodejs,react,express,mongodb,git,github,vscode,figma,python" height="32"/>
+  <img src="https://skillicons.dev/icons?i=html,css,js,nodejs,react,express,mongodb,git,github,vscode,python" height="32"/>
   <img src="https://skillicons.dev/icons?i=java" height="32" alt="Java"/>
   <img src="https://skillicons.dev/icons?i=tailwind" height="32" alt="TailwindCSS"/>
 </p>
@@ -41,10 +41,12 @@ Here are some highlights from my work:
 
 <p align="left">
   <!-- Overall Stats: Includes private commits if you enable count_private -->
-  <img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true" height="170" />
+<img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&cache_seconds=86400" height="170" />
+
 
   <!-- Top Languages -->
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&count_private=true" height="170" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&cache_seconds=86400" height="170" />
+
 </p>
 
 <p align="left">
@@ -56,7 +58,8 @@ Here are some highlights from my work:
 
 ### 📈 Contribution Activity  
 <p align="left">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true&count_private=true" width="90%"/>
+ <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/>
+
 </p>
 
 
@@ -71,5 +74,5 @@ Here are some highlights from my work:
 <p align="left">
   <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank"><img src="https://skillicons.dev/icons?i=linkedin" height="28"/></a> <!-- placeholder -->
   <a href="https://twitter.com/YOUR-HANDLE" target="_blank"><img src="https://skillicons.dev/icons?i=twitter" height="28"/></a> <!-- placeholder -->
-  <a href="mailto:YOUR-EMAIL"><img src="https://skillicons.dev/icons?i=gmail" height="28"/></a> <!-- placeholder -->
+  <a href="mailto:samuelbannor44@gmail.com"><img src="https://skillicons.dev/icons?i=gmail" height="28"/></a> <!-- placeholder -->
 </p>
