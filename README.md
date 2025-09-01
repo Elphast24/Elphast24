@@ -154,32 +154,8 @@ Here are some highlights from my work:
 
 ---
 
-<p align="center">
-  <a href="https://skillicons.dev">
-    <!-- Fila 1 -->
-    <img src="https://skillicons.dev/icons?i=html,css,js,python,c,cpp,cs,java,matlab,r" />
-    <br/>
-    <!-- Fila 2 -->
-    <img src="https://skillicons.dev/icons?i=latex,bash,cmake,php,nodejs,git,mysql,sqlite,mongodb,dotnet" />
-    <br/>
-    <!-- Fila 3 -->
-    <img src="https://skillicons.dev/icons?i=raspberrypi,powershell,bootstrap,jquery,windows,ubuntu,debian,kali,linux,arch" />
-    <br/>
-    <!-- Fila 4 -->
-    <img src="https://skillicons.dev/icons?i=wordpress,clion,visualstudio,vscode,github,stackoverflow,markdown,instagram,twitter,linkedin" />
-  </a>
-</p>
-
->[!NOTE]  
-> 📝 Above this note, I've listed all the programming languages and technologies I've used in my life so far.
-
----
-
 <!-- Contribuciones 3D GitHub -->
-<!-- Contribuciones 3D GitHub -->
-[![Contribuciones night-green](https://raw.githubusercontent.com/marichu-kt/marichu-kt/9eb66d62d13fb949668daf8daa2dbbc0955d29cb/profile-3d-contrib/profile-night-green.svg)](https://github.com/Elphast24)
 
-###
 
 <!-- Snake Animation con enlace a Platane/snk -->
 <a href="https://github.com/Platane/snk" target="_blank" rel="noopener noreferrer">
@@ -188,6 +164,13 @@ Here are some highlights from my work:
     src="https://raw.githubusercontent.com/marichu-kt/marichu-kt/output/github-snake-dark.svg"
   />
 </a>
+
+<!-- Visitor Counter -->
+<p align="center">
+  <a href="https://count.getloli.com/" target="_blank">
+    <img src="https://count.getloli.com/get/@Elphast24?theme=3d-num" alt="Visitor counter" />
+  </a>
+</p>
 
 
 ### 🤝 Connect with Me  
