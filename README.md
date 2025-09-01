@@ -23,6 +23,35 @@
   <img src="https://skillicons.dev/icons?i=tailwind" height="32" alt="TailwindCSS"/>
 </p>
 
+<p align="center">
+  <!-- Programming Languages -->
+  <b>💻 Programming Languages</b><br/>
+  <img src="https://skillicons.dev/icons?i=c,cpp,java,py,js,ts,php" /><br/><br/>
+
+  <!-- Frameworks & Libraries -->
+  <b>⚡ Frameworks & Libraries</b><br/>
+  <img src="https://skillicons.dev/icons?i=react,nodejs,express,tailwind,bootstrap,angular" /><br/><br/>
+
+  <!-- Databases -->
+  <b>🗄️ Databases</b><br/>
+  <img src="https://skillicons.dev/icons?i=mysql,mongodb,sqlite,postgres" /><br/><br/>
+
+  <!-- Operating Systems -->
+  <b>🖥️ Operating Systems</b><br/>
+  <img src="https://skillicons.dev/icons?i=linux,ubuntu,windows" /><br/><br/>
+
+  <!-- Tools & Platforms -->
+  <b>🛠️ Tools & Platforms</b><br/>
+  <img src="https://skillicons.dev/icons?i=git,github,vscode,postman,docker,figma,vercel,netlify" />
+</p>
+
+---
+
+>[!NOTE]  
+> 📝 The icons above showcase the programming languages, frameworks, tools, and platforms I've worked with throughout my journey so far — ranging from low-level languages like **C/C++**, to web technologies like **HTML, CSS, JavaScript, PHP, Node.js**, all the way to databases (**MySQL, SQLite, MongoDB**) and operating systems (**Linux distros, Windows**).  
+> 🚀 They represent both my academic background and personal projects, as well as the technologies I continue to explore and grow with.
+
+
 ---
 
 ### 📂 Projects  
@@ -34,6 +63,61 @@ Here are some highlights from my work:
 - 🌱 **Cocoa Leaf Disease Classifier** – TensorFlow + Quantum preprocessing for agriculture  
 - 🍴 **Gripson Resto** – Restaurant website with ordering & pricing system  
 - ⚽ **Ultimate Football Experience** – Football-themed website with event calendar  
+<p align="center">
+  <img src="assets/projects.png" alt="Projects" width="60%" />
+</p>
+
+>[!TIP]
+> 🌟 **Support matters!** If you find any of these projects useful or interesting, please consider giving them a **star ⭐**. Every bit of encouragement helps me keep building awesome things 🚀. Thanks for your support! 🙌
+
+<table>
+  <tr>
+    <td>
+      <a href="https://github.com/Elphast24/Elphast">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elphast24&repo=Elphast&theme=radical&hide_border=true" alt="Elphast">
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/Elphast24/PalmX">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elphast24&repo=PalmX&theme=radical&hide_border=true" alt="PalmX">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://github.com/Elphast24/Cocoa-Leaf-Disease-Identifier">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elphast24&repo=Cocoa-Leaf-Disease-Identifier&theme=radical&hide_border=true" alt="Cocoa-Leaf-Disease-Identifier">
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/Elphast24/Joekar">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elphast24&repo=Joekar&theme=radical&hide_border=true" alt="Joekar">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://github.com/Elphast24/Gripson-Resto">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elphast24&repo=Gripson-Resto&theme=radical&hide_border=true" alt="Gripson-Resto">
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/Elphast24/Quantum-Image-Classifier">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elphast24&repo=Quantum-Image-Classifier&theme=radical&hide_border=true" alt="Quantum-Image-Classifier">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://github.com/Elphast24/PodSync-Pro">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=Elphast24&repo=PodSync-Pro&theme=radical&hide_border=true" alt="PodSync-Pro">
+      </a>
+    </td>
+    <td align="center" valign="middle">
+      <strong style="color:#f0f0f0; font-size: 20px;">🚧 Coming Soon!!! 🚧</strong>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -69,6 +153,42 @@ Here are some highlights from my work:
 </p>
 
 ---
+
+<p align="center">
+  <a href="https://skillicons.dev">
+    <!-- Fila 1 -->
+    <img src="https://skillicons.dev/icons?i=html,css,js,python,c,cpp,cs,java,matlab,r" />
+    <br/>
+    <!-- Fila 2 -->
+    <img src="https://skillicons.dev/icons?i=latex,bash,cmake,php,nodejs,git,mysql,sqlite,mongodb,dotnet" />
+    <br/>
+    <!-- Fila 3 -->
+    <img src="https://skillicons.dev/icons?i=raspberrypi,powershell,bootstrap,jquery,windows,ubuntu,debian,kali,linux,arch" />
+    <br/>
+    <!-- Fila 4 -->
+    <img src="https://skillicons.dev/icons?i=wordpress,clion,visualstudio,vscode,github,stackoverflow,markdown,instagram,twitter,linkedin" />
+  </a>
+</p>
+
+>[!NOTE]  
+> 📝 Above this note, I've listed all the programming languages and technologies I've used in my life so far.
+
+---
+
+<!-- Contribuciones 3D GitHub -->
+<!-- Contribuciones 3D GitHub -->
+[![Contribuciones night-green](https://raw.githubusercontent.com/marichu-kt/marichu-kt/9eb66d62d13fb949668daf8daa2dbbc0955d29cb/profile-3d-contrib/profile-night-green.svg)](https://github.com/Elphast24)
+
+###
+
+<!-- Snake Animation con enlace a Platane/snk -->
+<a href="https://github.com/Platane/snk" target="_blank" rel="noopener noreferrer">
+  <img
+    alt="github contribution snake dark"
+    src="https://raw.githubusercontent.com/marichu-kt/marichu-kt/output/github-snake-dark.svg"
+  />
+</a>
+
 
 ### 🤝 Connect with Me  
 <p align="left">
