@@ -87,11 +87,12 @@ Here are some highlights from my work:
 
 </p>
 
-
+<!--
 ### 🧩 LeetCode Stats  
 <p align="left">
   <img src="https://leetcard.jacoblin.cool/elphast24?theme=radical&font=Fira%20Code&ext=heatmap" height="200"/> <!-- line 4: replace YOUR-LEETCODE-USERNAME with your handle -->
 </p>
+-->
 
 ---
 
