@@ -79,6 +79,12 @@ Here are some highlights from my work:
   <img src="https://streak-stats.demolab.com?user=Elphast24&theme=radical&hide_border=true&date_format=j%20M%5B%20Y%5D&count_private=true" height="150"/>
 </p>
 
+<div align="center">
+  <!-- GitHub Trophies -->
+  <img src="https://github-profile-trophy.vercel.app?username=Elphast24&theme=dracula&column=-1&row=1&margin-w=8&margin-h=8&no-bg=false&no-frame=false&order=4" height="150" alt="trophy graph" />
+</div>
+
+
 ---
 
 ### 📈 Contribution Activity  
