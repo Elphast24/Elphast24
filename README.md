@@ -89,9 +89,9 @@ Here are some highlights from my work:
 
 ### 📈 Contribution Activity  
 <p align="left">
- <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/>
-
+  <img src="https://github-readme-activity-graph.cyclic.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/>
 </p>
+
 
 <!--
 ### 🧩 LeetCode Stats  
