@@ -124,6 +124,6 @@ Here are some highlights from my work:
 ### 🤝 Connect with Me  
 <p align="left">
   <a href="https://www.linkedin.com/in/samuel-bannor-annor/" target="_blank"><img src="https://skillicons.dev/icons?i=linkedin" height="28"/></a> <!-- placeholder -->
-  <!-- <a href="https://twitter.com/YOUR-HANDLE" target="_blank"><img src="https://skillicons.dev/icons?i=twitter" height="28"/></a> <!-- placeholder --> -->
+  <!-- <a href="https://twitter.com/YOUR-HANDLE" target="_blank"><img src="https://skillicons.dev/icons?i=twitter" height="28"/></a> <!-- placeholder -->
   <a href="mailto:samuelbannor44@gmail.com"><img src="https://skillicons.dev/icons?i=gmail" height="28"/></a> <!-- placeholder -->
 </p>
