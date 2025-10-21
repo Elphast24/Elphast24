@@ -4,7 +4,7 @@ import tsaWeb from '../assets/img/works/tsaWeb.png'
 import newImage from '../assets/img/new.png'
 import resto from '../assets/img/resto.png'
 import ufe from '../assets/img/works/ufe.png'
-import imageClassifier from '../assets/img/works/Imageclassifier.png'
+import imageClassifier from '../assets/img/works/ImageClassifier.png'
 import emailGenerator from '../assets/img/works/EmailGenerator.png'
 // import { Link } from 'react-router-dom'
 
