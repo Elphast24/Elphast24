@@ -1,6 +1,6 @@
 import React from 'react'
 import '../styles/Hero.css'
-import illustrate from '../assets/img/profile.png'
+import illustrate from '../assets/img/hero-pro.svg'
 import {ReactTyped} from 'react-typed'
 // import {phone} from
 
