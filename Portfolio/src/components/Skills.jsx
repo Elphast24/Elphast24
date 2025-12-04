@@ -5,6 +5,7 @@ import css from '../assets/img/icons/icons8-css.svg'
 import js from "../assets/img/icons/icons8-javascript.svg"
 import react from "../assets/img/icons/codesandbox.svg"
 import node from "../assets/img/icons/command.svg"
+// import {motion} from 'framer-motion'
 
 
 const Skills = () => {
@@ -13,7 +14,8 @@ const Skills = () => {
             <div className="section-container">
                 <h2 className="section-title scroll-animate">Technical Expertise</h2>
                 <div className="skills-grid scroll-animate">
-                    <div className="skill-card">
+                    <div
+                    className="skill-card">
                         <div className="skill-icon">
                             <img src={html} alt="HTML" />
                         </div>

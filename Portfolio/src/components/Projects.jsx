@@ -6,6 +6,11 @@ import resto from '../assets/img/resto.png'
 import ufe from '../assets/img/works/ufe.png'
 import imageClassifier from '../assets/img/works/ImageClassifier.png'
 import emailGenerator from '../assets/img/works/EmailGenerator.png'
+import chatti from '../assets/img/works/Chatti.png'
+import jobb from '../assets/img/works/jobb.png'
+import taskme from '../assets/img/works/taskme.png'
+import slinq from '../assets/img/works/slinq.png'
+import vv from '../assets/img/works/vv.png'
 // import { Link } from 'react-router-dom'
 
 
@@ -21,7 +26,7 @@ const Projects = () => {
         },
         {
             id: 2,
-            title: 'Enterprise Application',
+            title: 'Gaming Website',
             description: 'Full-stack web application with sophisticated content management system and responsive design implementation.',
             image: newImage,
             link: 'https://quickstock-2r9a.onrender.com'
@@ -35,8 +40,8 @@ const Projects = () => {
         },
         {
             id: 4,
-            title: 'Educational Platform',
-            description: 'Advanced learning management system with interactive features, progress tracking, and multimedia content delivery.',
+            title: 'Ultimate Football Experience',
+            description: 'Gaming system with interactive features, progress tracking, and multimedia content delivery.',
             image: ufe,
             link: 'https://dls-1.onrender.com/'
         },
@@ -53,7 +58,49 @@ const Projects = () => {
             description: 'Professional email generation and automation tool with template management and advanced customization options.',
             image: emailGenerator,
             link: 'http://gripsonresto-e001.netlify.app/'
-        }
+        },
+        {
+            id: 7,
+            title: 'Chatti',
+            description: 'Real-time chat application built with MERN and Socket.io for instant communication between users.',
+            image: chatti,
+            link: 'https://chatti-csxs.onrender.com/'
+        },
+        {
+            id: 8,
+            title: 'TaskMe',
+            description: 'A task management app built with React and Node.js, allowing users to organize and track tasks efficiently.',
+            image: taskme,
+            link: 'https://taskme.onrender.com/'
+        },
+        {
+            id: 9,
+            title: 'Jobb',
+            description: 'A MERN-based job portal that connects job seekers with employers through secure authentication and job listings.',
+            image: jobb,
+            link: 'https://jobb.onrender.com/'
+        },
+        {
+            id: 10,
+            title: 'Venture Vault',
+            description: 'A responsive web app for managing and showcasing startup ventures using modern web technologies.',
+            image: vv,
+            link: 'https://taskme.onrender.com/'
+        },
+        {
+            id: 11,
+            title: 'Slinq',
+            description: 'A web-based inventory management system for tracking stock, sales, and purchases efficiently',
+            image: slinq,
+            link: 'https://slinq-wxgw.onrender.com/'
+        },
+        {
+            id: 12,
+            title: 'titi',
+            description: 'A MERN-based job portal that connects job seekers with employers through secure authentication and job listings.',
+            image: jobb,
+            link: 'https://titi-web.onrender.com/'
+        },
     ]
   return (
     <section id="portfolio" className="section portfolio">
