@@ -18,10 +18,10 @@ const About = () => {
                         <p>My approach combines technical excellence with strategic thinking, ensuring that every project not only meets current requirements but is also positioned for future growth and scalability.</p>
                         <div className="about-social">
                             <a href="#" className="social-link">
-                                <img src="img/icons/whatsapp_1400479.png" alt="WhatsApp" />
+                                <img src="../assets/img/icons/whatsapp_1400479.png" alt="WhatsApp" />
                             </a>
                             <a href="#" className="social-link">
-                                <img src="img/icons/linkedin.svg" alt="LinkedIn" />
+                                <img src="../assets/img/icons/linkedin.svg" alt="LinkedIn" />
                             </a>
                             <a href="#" className="social-link">
                                 <img src="img/icons/twitter_2525779.png" alt="Twitter" />

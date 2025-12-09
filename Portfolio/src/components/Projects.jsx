@@ -11,6 +11,7 @@ import jobb from '../assets/img/works/jobb.png'
 import taskme from '../assets/img/works/taskme.png'
 import slinq from '../assets/img/works/slinq.png'
 import vv from '../assets/img/works/vv.png'
+import titi from '../assets/img/works/titi.png'
 // import { Link } from 'react-router-dom'
 
 
@@ -98,7 +99,7 @@ const Projects = () => {
             id: 12,
             title: 'titi',
             description: 'A MERN-based job portal that connects job seekers with employers through secure authentication and job listings.',
-            image: jobb,
+            image: titi,
             link: 'https://titi-web.onrender.com/'
         },
     ]
