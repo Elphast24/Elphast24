@@ -86,7 +86,7 @@ const Projects = () => {
             title: 'Venture Vault',
             description: 'A responsive web app for managing and showcasing startup ventures using modern web technologies.',
             image: vv,
-            link: 'https://taskme.onrender.com/'
+            // link: 'https://taskme.onrender.com/'
         },
         {
             id: 11,
@@ -98,7 +98,7 @@ const Projects = () => {
         {
             id: 12,
             title: 'titi',
-            description: 'A MERN-based job portal that connects job seekers with employers through secure authentication and job listings.',
+            description: 'An AI-powered academic assistant that helps students organize their semester automatically. Built for web and mobile using React, Expo, and Node.js to create a seamless study experience',
             image: titi,
             link: 'https://titi-web.onrender.com/'
         },
