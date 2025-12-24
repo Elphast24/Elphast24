@@ -63,8 +63,26 @@ Here are some highlights from my work:
 
 
 ### 📊 GitHub Stats & Contributions  
-
-## 📊 GitHub Stats
+  
+<p align="left">
+  <!-- Overall Stats: Includes private commits if you enable count_private -->
+<img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&cache_seconds=86400" height="170" />
+  <!-- Top Languages -->
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&cache_seconds=86400" height="170" />
+</p>
+<p align="left">
+  <!-- Commit Streak -->
+  <img src="https://streak-stats.demolab.com?user=Elphast24&theme=radical&hide_border=true&date_format=j%20M%5B%20Y%5D&count_private=true" height="150"/>
+</p>
+<div align="center">
+  <!-- GitHub Trophies -->
+  <img src="https://github-profile-trophy.vercel.app?username=Elphast24&theme=dracula&column=-1&row=1&margin-w=8&margin-h=8&no-bg=false&no-frame=false&order=4" height="150" alt="trophy graph" />
+</div>
+---
+### 📈 Contribution Activity  
+<p align="left">
+  <img src="https://github-readme-activity-graph.cyclic.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/>
+</p>"## 📊 GitHub Stats
 
 <div align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" height="170"/>
