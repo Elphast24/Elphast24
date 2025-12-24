@@ -64,22 +64,20 @@ Here are some highlights from my work:
 
 ### 📊 GitHub Stats & Contributions  
 
-<p align="center">
-  <!-- Overall Stats -->
-  <img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true" height="180" />
-  <!-- Top Languages -->
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&langs_count=8" height="180" />
-</p>
+## 📊 GitHub Stats
 
-<p align="center">
-  <!-- Commit Streak -->
-  <img src="https://streak-stats.demolab.com?user=Elphast24&theme=radical&hide_border=true&date_format=M%20j%5B%2C%20Y%5D" height="180"/>
-</p>
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" height="170"/>
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" height="170"/>
+</div>
 
-<p align="center">
-  <!-- GitHub Trophies -->
-  <img src="https://github-profile-trophy.vercel.app/?username=Elphast24&theme=dracula&no-frame=true&no-bg=false&margin-w=4&column=7" alt="trophy graph" />
-</p>
+<div align="center">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Elphast24&theme=tokyonight&hide_border=true" alt="GitHub Streak"/>
+</div>
+
+<div align="center">
+  <img src="https://github-profile-trophy.vercel.app/?username=Elphast24&theme=tokyonight&no-frame=true&row=1&column=6" alt="Trophies"/>
+</div>
 
 ---
 
@@ -87,6 +85,7 @@ Here are some highlights from my work:
 
 <p align="center">
   <!-- Activity Graph - Using ashutosh00710's repo -->
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&bg_color=141321&color=eb1f6a&line=f97316&point=ffffff&area=true&hide_border=true" width="95%"/>
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=react-dark&hide_border=true&area=true" width="95%"/>
 </p>
 
