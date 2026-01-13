@@ -102,7 +102,7 @@ Here are some highlights from my work:
 <p align="center">
   <!-- Activity Graph - Using ashutosh00710's repo -->
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&bg_color=141321&color=eb1f6a&line=f97316&point=ffffff&area=true&hide_border=true" width="95%"/>
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=react-dark&hide_border=true&area=true" width="95%"/>
+  <!-- <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=react-dark&hide_border=true&area=true" width="95%"/> -->
    <!-- <img src="https://github-readme-activity-graph.cyclic.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/> -->
 </p>
 
