@@ -82,17 +82,15 @@ Here are some highlights from my work:
 <!-- ### 📈 Contribution Activity  
 <p align="left">
   <img src="https://github-readme-activity-graph.cyclic.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/>
-</p>"## 📊 GitHub Stats
-
+</p>
+"## 📊 GitHub Stats
 <div align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=tokyonight&hide_border=true" alt="GitHub Stats" height="170"/>
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=tokyonight&hide_border=true" alt="Top Languages" height="170"/>
 </div>
-
 <div align="center">
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=Elphast24&theme=tokyonight&hide_border=true" alt="GitHub Streak"/>
 </div>
-
 <div align="center">
   <img src="https://github-profile-trophy.vercel.app/?username=Elphast24&theme=tokyonight&no-frame=true&row=1&column=6" alt="Trophies"/>
 </div> -->
@@ -105,6 +103,7 @@ Here are some highlights from my work:
   <!-- Activity Graph - Using ashutosh00710's repo -->
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&bg_color=141321&color=eb1f6a&line=f97316&point=ffffff&area=true&hide_border=true" width="95%"/>
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=react-dark&hide_border=true&area=true" width="95%"/>
+   <img src="https://github-readme-activity-graph.cyclic.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/>
 </p>
 
 
