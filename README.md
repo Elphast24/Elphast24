@@ -97,14 +97,14 @@ Here are some highlights from my work:
 
 ### 📌 Profile Insights  
 <p align="left">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=jevisexcell024&theme=radical" width="50%"/>
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Elphast24&theme=radical" width="50%"/>
 
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=jevisexcell024&theme=radical" height="120"/>
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=jevisexcell024&theme=radical&utcOffset=0" height="120"/>
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=Elphast24&theme=radical" height="120"/>
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=Elphast24&theme=radical&utcOffset=0" height="120"/>
 </p>
 
 <p align="left">
-  <img src="https://leetcard.jacoblin.cool/jevisexcell024?theme=radical&font=Fira%20Code&ext=heatmap" height="200"/> <!-- line 4: replace YOUR-LEETCODE-USERNAME with your handle -->
+  <img src="https://leetcard.jacoblin.cool/Elphast24?theme=radical&font=Fira%20Code&ext=heatmap" height="200"/> <!-- line 4: replace YOUR-LEETCODE-USERNAME with your handle -->
 </p>
 
 ---
