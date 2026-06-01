@@ -5,14 +5,25 @@
 
 ---
 
-- 🔭 I’m currently working on ... **Elphast (Smart Assistant)** & **Joekar (Sales System)**  
-- 🌱 I’m currently learning ... **Quantum Computing (QFT)** & **Advanced React/Node.js**  
-- 👯 I’m looking to collaborate on ... **Open-Source Web Projects**  
-- 🤔 I’m looking for help with ... **Quantum + Web Integration**  
-- 💬 Ask me about ... **Web Development, React, Node.js, Databases**  
-- 📫 How to reach me: ... samuelbannor44@gmail.com <!-- line 12: update your email -->  
-- 😄 Pronouns: ... he/him  
-- ⚡ Fun fact: ... I balance **web dev, AI/quantum projects, and student life** 🚀  
+## 👨‍💻 About Me
+ 
+```typescript
+const samuel = {
+  name: "Samuel Bannor-Annor",
+  location: "Ghana 🇬🇭",
+  role: "Full-Stack Developer | AI/Quantum Explorer",
+  pronouns: "he/him",
+ 
+  currentlyBuilding: ["Elphast (Smart AI Assistant)", "Joekar (Sales & Inventory System)"],
+  currentlyLearning: ["Quantum Computing (QFT)", "Advanced React & Node.js"],
+  lookingToCollaborate: "Open-Source Web Projects",
+  askMeAbout: ["Web Development", "React", "Node.js", "Databases", "AI"],
+ 
+  funFact: "I balance web dev, AI/quantum research, and student life 🚀",
+  contact: "samuelbannor44@gmail.com",
+};
+```
+
 
 ---
 
@@ -51,45 +62,58 @@
 <p align="center">
   <img src="assets/projects.png" alt="Projects" width="60%" />
 </p>
-Here are some highlights from my work:  
-
-- 🧠 **Elphast** – Smart Assistant with timetable, reminders & AI features  
-- 💼 **Joekar** – Simple inventory & sales management system  
-- 📅 **PalmX** – Automatic timetable generator for students  
-- 🌱 **Cocoa Leaf Disease Classifier** – TensorFlow + Quantum preprocessing for agriculture  
-- 🍴 **Gripson Resto** – Restaurant website with ordering & pricing system  
-- ⚽ **Ultimate Football Experience** – Football-themed website with event calendar  
-
-
-
-### 📊 GitHub Stats & Contributions  
-
-<p align="left">
-  <!-- Overall Stats: Includes private commits if you enable count_private -->
-<img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&cache_seconds=86400" height="170" />
+## 🚀 What I'm Working On
+ 
+| Project | Description | Status |
+|--------|-------------|--------|
+| 🧠 **[Elphast](https://github.com/Elphast24)** | Smart AI assistant with timetable, reminders & AI features | 🟢 Active |
+| 💼 **[Joekar](https://github.com/Elphast24)** | Inventory & sales management system for small businesses | 🟢 Active |
+| 📅 **PalmX** | Automatic timetable generator for students | 🔵 Maintained |
+| 🌱 **Cocoa Leaf Classifier** | TensorFlow + Quantum preprocessing for agriculture | 🟡 Research |
+| 🍴 **Gripson Resto** | Restaurant website with ordering & pricing system | ✅ Done |
+| ⚽ **Ultimate Football Experience** | Football-themed site with event calendar | ✅ Done |
+ 
 
 
-  <!-- Top Languages -->
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&cache_seconds=86400" height="170" />
-
-</p>
-
-<p align="left">
-  <!-- Commit Streak -->
-  <img src="https://streak-stats.demolab.com?user=Elphast24&theme=radical&hide_border=true&date_format=j%20M%5B%20Y%5D&count_private=true" height="150"/>
-</p>
-
+## 📊 GitHub Stats
+ 
 <div align="center">
-  <!-- GitHub Trophies -->
-  <img src="https://github-profile-trophy.vercel.app?username=Elphast24&theme=dracula&column=-1&row=1&margin-w=8&margin-h=8&no-bg=false&no-frame=false&order=4" height="150" alt="trophy graph" />
+  <img src="https://github-readme-stats.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&cache_seconds=86400" height="170"/>
+  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&langs_count=8" height="170"/>
+</div>
+<div align="center">
+  <img src="https://streak-stats.demolab.com?user=Elphast24&theme=radical&hide_border=true&date_format=j%20M%5B%20Y%5D&count_private=true" height="150"/>
+</div>
+<div align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&bg_color=141321&color=eb1f6a&line=f97316&point=ffffff&area=true&hide_border=true" width="95%"/>
+</div>
+---
+ 
+## 🏆 GitHub Trophies
+ 
+<div align="center">
+  <img src="https://github-profile-trophy.vercel.app/?username=Elphast24&theme=radical&no-frame=true&row=1&column=7&margin-w=10" alt="trophies"/>
 </div>
 
+## 📌 Profile Insights
+ 
+<div align="center">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Elphast24&theme=radical" width="60%"/>
+</div>
+<div align="center">
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=Elphast24&theme=radical" height="120"/>
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=Elphast24&theme=radical&utcOffset=0" height="120"/>
+</div>
 
 ---
 
 ### 📈 Contribution Activity  
-<p align="left">
-  <img src="https://github-readme-activity-graph.cyclic.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/>
+
+<p align="center">
+  <!-- Activity Graph - Using ashutosh00710's repo -->
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&bg_color=141321&color=eb1f6a&line=f97316&point=ffffff&area=true&hide_border=true" width="95%"/>
+  <!-- <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&theme=react-dark&hide_border=true&area=true" width="95%"/> -->
+   <!-- <img src="https://github-readme-activity-graph.cyclic.app/graph?username=Elphast24&theme=radical&hide_border=true&area=true" width="90%"/> -->
 </p>
 
 
