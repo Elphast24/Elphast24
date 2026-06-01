@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import sammy from '../assets/img/sammy.png'
 import '../styles/Navbar.css';
 
 const Navbar = () => {
@@ -48,8 +49,10 @@ const Navbar = () => {
         <div className="navbar-inner">
           {/* Logo */}
           <a href="#home" className="logo" onClick={closeMenu}>
-            <span className="logo-name">SAMUEL</span>
-            <span className="logo-accent"></span>
+            <span className="logo-name">
+              <img src={sammy} width={250}/>
+            </span>
+            {/* <span className="logo-accent"></span> */}
           </a>
 
           {/* Desktop + Mobile Nav */}

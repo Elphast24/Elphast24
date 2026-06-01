@@ -159,21 +159,13 @@ const About = () => {
 
               <div className="about-text">
                 <p>
-                  I'm a dedicated frontend developer with over five years of experience
-                  creating exceptional digital experiences. With a strong foundation in
-                  modern web technologies, I focus on building responsive, accessible,
-                  and performant web applications.
+                  I'm a dedicated fullstack developer with over five years of experience creating exceptional digital experiences. With a strong foundation in modern web technologies, I focus on building responsive, accessible, and performant web applications , from intuitive frontend interfaces to robust backend systems.
                 </p>
                 <p>
-                  My expertise spans across multiple frontend frameworks and tools,
-                  allowing me to deliver robust solutions that meet both user needs and
-                  business objectives. I have a proven track record of leading development
-                  teams and architecting scalable web applications.
+                  My expertise spans across multiple frontend and backend frameworks and tools, allowing me to deliver end-to-end solutions that meet both user needs and business objectives. I have a proven track record of leading development teams and architecting scalable, fullstack web applications.
                 </p>
                 <p>
-                  My approach combines technical excellence with strategic thinking,
-                  ensuring that every project not only meets current requirements but is
-                  also positioned for future growth and scalability.
+                  My approach combines technical excellence with strategic thinking, ensuring that every project not only meets current requirements but is also positioned for future growth and scalability.
                 </p>
               </div>
 

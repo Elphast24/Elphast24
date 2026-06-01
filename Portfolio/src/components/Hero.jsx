@@ -39,7 +39,7 @@ const Hero = () => {
 
             <p className="hero-description">
               I craft seamless digital solutions that combine technical expertise,
-              creative design, and forward-thinking innovation — building intuitive,
+              creative design, and forward-thinking innovation, building intuitive,
               visually appealing experiences that deliver real results.
             </p>
 
@@ -68,12 +68,12 @@ const Hero = () => {
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
-                <span className="stat-number">20+</span>
+                <span className="stat-number">15+</span>
                 <span className="stat-label">Projects Done</span>
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
-                <span className="stat-number">15+</span>
+                <span className="stat-number">5+</span>
                 <span className="stat-label">Happy Clients</span>
               </div>
             </div>
