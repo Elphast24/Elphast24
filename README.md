@@ -31,7 +31,7 @@ const samuel = {
 <p align="center">
   <!-- Programming Languages -->
   <b>💻 Programming Languages</b><br/>
-  <img src="https://skillicons.dev/icons?i=csharp,cpp,java,py,js,php" /><br/><br/>
+  <img src="https://skillicons.dev/icons?i=csharp,cpp,java,py,js,ts,php" /><br/><br/>
 
   <!-- Frameworks & Libraries -->
   <b>⚡ Frameworks & Libraries</b><br/>
