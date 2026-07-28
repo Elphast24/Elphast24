@@ -78,14 +78,14 @@ const samuel = {
 ## 📊 GitHub Stats
  
 <div align="center">
-  <img src="https://github-stats-extended.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&cache_seconds=86400" height="170"/>
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&langs_count=8" height="170"/>
+  <img src="https://github-stats-extended.vercel.app/api?username=Elphast24&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&cache_seconds=1800&v=20260728" height="170"/>
+  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=Elphast24&layout=compact&theme=radical&hide_border=true&langs_count=8&v=20260728" height="170"/>
 </div>
 <div align="center">
-  <img src="https://streak-stats.demolab.com?user=Elphast24&theme=radical&hide_border=true&date_format=j%20M%5B%20Y%5D&count_private=true" height="150" alt="GitHub Streak Stats"/>
+  <img src="https://streak-stats.demolab.com?user=Elphast24&theme=radical&hide_border=true&date_format=j%20M%5B%20Y%5D&count_private=true&v=20260728" height="150" alt="GitHub Streak Stats"/>
 </div>
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&bg_color=141321&color=eb1f6a&line=f97316&point=ffffff&area=true&hide_border=true" width="95%"/>
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Elphast24&bg_color=141321&color=eb1f6a&line=f97316&point=ffffff&area=true&hide_border=true&v=20260728" width="95%"/>
 </div>
 ---
  
