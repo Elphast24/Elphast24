@@ -7,7 +7,7 @@
 
 ## 👨‍💻 About Me
  
-```typescript
+```typescripthy
 const samuel = {
   name: "Samuel Bannor-Annor",
   location: "Ghana 🇬🇭",
