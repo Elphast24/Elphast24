@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
+import NeonKeysIntro from './components/NeonKeysIntro'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
@@ -9,12 +10,12 @@ import Footer from './components/Footer'
 import './App.css'
 
 function App() {
-
   return (
     <>
-    <header>
-      <Navbar />
-    </header>
+      <header>
+        <Navbar />
+      </header>
+      <NeonKeysIntro />
       <Hero />
       <About />
       <Skills />

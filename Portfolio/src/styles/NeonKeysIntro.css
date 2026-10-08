@@ -1,0 +1,95 @@
+.neon-keys-intro {
+  position: relative;
+  height: 400vh;
+  max-width: 100%;
+  overflow: clip;
+  isolation: isolate;
+  background: #000;
+}
+
+.neon-keys-intro__sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #000;
+}
+
+.neon-keys-intro__logo {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: clamp(5.5rem, 13vw, 11rem);
+  height: auto;
+  transform: translate(-50%, -50%);
+  clip-path: inset(0);
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 11px rgba(34, 211, 238, 0.76)) drop-shadow(0 0 24px rgba(217, 70, 239, 0.42));
+  animation: neon-logo-reveal 1.15s cubic-bezier(0.23, 1, 0.32, 1) 160ms both;
+  will-change: clip-path, opacity, filter;
+}
+
+.neon-keys-intro__laptop {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: min(56vw, 94vh);
+  overflow: visible;
+  transform: translate(-50%, -50%) translateX(var(--shift-x)) scale(var(--laptop-scale));
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.neon-keys-intro__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+@keyframes neon-logo-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)) drop-shadow(0 0 0 rgba(34, 211, 238, 0));
+  }
+  68% {
+    clip-path: inset(0);
+    filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 18px rgba(34, 211, 238, 0.95)) drop-shadow(0 0 34px rgba(217, 70, 239, 0.58));
+  }
+  to {
+    clip-path: inset(0);
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 11px rgba(34, 211, 238, 0.76)) drop-shadow(0 0 24px rgba(217, 70, 239, 0.42));
+  }
+}
+
+@media (max-width: 900px) {
+  .neon-keys-intro__laptop {
+    top: 58%;
+    width: min(88vw, 72vh);
+    --shift-x: 0px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-keys-intro {
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .neon-keys-intro__logo {
+    clip-path: inset(0);
+    animation: none;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 11px rgba(34, 211, 238, 0.76));
+    will-change: auto;
+  }
+
+  .neon-keys-intro__laptop {
+    will-change: auto;
+  }
+}
