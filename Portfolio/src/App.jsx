@@ -1,4 +1,5 @@
 import React from 'react'
+import LoaderVideo from './components/LoaderVideo'
 import Navbar from './components/Navbar'
 import NeonKeysIntro from './components/NeonKeysIntro'
 import Hero from './components/Hero'
@@ -12,6 +13,7 @@ import './App.css'
 function App() {
   return (
     <>
+      <LoaderVideo />
       <header>
         <Navbar />
       </header>

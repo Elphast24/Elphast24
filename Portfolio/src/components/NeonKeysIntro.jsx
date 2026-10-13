@@ -1,173 +1,140 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import '../styles/NeonKeysIntro.css'
 
-const FRAME_COUNT = 145
+const FRAME_COUNT = 158
 const PREFIX = 'ezgif-frame-'
 const PAD = 3
-const START = 1
-const EXT = 'png'
-const INITIAL_FRAME_COUNT = 20
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'
+const EXT = 'jpg'
+const INITIAL_FRAME_COUNT = 24
+// Scroll progress at which the sequence reaches its last frame; the rest is a hold.
+const SEQUENCE_END = 0.92
+// Share of the viewport the scroll frames fill (1 = touch the nearest edge).
+const FRAME_ZOOM = 0.66
+const FRAME_ZOOM_MOBILE = 1
+// Scrolling less than this keeps the start frame on screen.
+const START_HOLD = 0.004
 
-const getFrameUrl = (i) => `/laptop/${PREFIX}${String(i + START - 1).padStart(PAD, '0')}.${EXT}`
+// Index 0 is the resting frame shown when the loader ends, before any scrolling.
+const START_FRAME_URL = '/start-frame-loader-logo.png'
+const getFrameUrl = (i) => (i === 0
+  ? START_FRAME_URL
+  : `/after-loader/${PREFIX}${String(i).padStart(PAD, '0')}.${EXT}`)
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value))
 
 function NeonKeysIntro() {
   const containerRef = useRef(null)
   const canvasRef = useRef(null)
-  const [sequenceProgress, setSequenceProgress] = useState(0)
-  const [isReady, setIsReady] = useState(false)
-  const [reducedMotion, setReducedMotion] = useState(false)
-  const [frameAspectRatio, setFrameAspectRatio] = useState(16 / 9)
 
   useEffect(() => {
     const container = containerRef.current
     const canvas = canvasRef.current
-    const context = canvas?.getContext('2d', { willReadFrequently: true })
+    const context = canvas?.getContext('2d')
     if (!container || !canvas || !context) return undefined
 
-    const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY)
-    const images = new Array(FRAME_COUNT + 1)
-    let isReducedMotion = mediaQuery.matches
+    const probe = document.createElement('canvas')
+    probe.width = 1
+    probe.height = 1
+    const probeContext = probe.getContext('2d', { willReadFrequently: true })
+
+    const entries = new Array(FRAME_COUNT + 1)
     let isDisposed = false
     let drawFrame = 0
     let scrollFrame = 0
-    let lastFrameIndex = -1
-    let currentFrameIndex = FRAME_COUNT
-    let progressValue = 0
-    let hasWarnedFrameLoad = false
-    let sourceFrameWidth = 0
-    let sourceFrameHeight = 0
-
-    setReducedMotion(isReducedMotion)
+    let lastDrawn = -1
+    let currentIndex = 0
+    let hasWarned = false
 
     const loadImage = (index) => {
-      if (images[index]) return images[index].promise
-
+      if (entries[index]) return entries[index].promise
       const image = new Image()
-      const entry = { image, promise: null }
+      const entry = { image, background: '#000', promise: null }
       entry.promise = new Promise((resolve) => {
         image.onload = () => {
-          if (!isDisposed && !sourceFrameWidth && image.naturalWidth && image.naturalHeight) {
-            sourceFrameWidth = image.naturalWidth
-            sourceFrameHeight = image.naturalHeight
-            setFrameAspectRatio(image.naturalWidth / image.naturalHeight)
+          // Frames run from a black to a white backdrop; remember each frame's
+          // corner colour so letterboxing blends in with it.
+          try {
+            probeContext.drawImage(image, 0, 0, 1, 1, 0, 0, 1, 1)
+            const [r, g, b] = probeContext.getImageData(0, 0, 1, 1).data
+            entry.background = `rgb(${r}, ${g}, ${b})`
+          } catch {
+            // keep the default
           }
           resolve(image)
         }
         image.onerror = () => {
-          entry.failed = true
-          if (!hasWarnedFrameLoad) {
+          if (!hasWarned) {
             console.warn(`NeonKeysIntro: failed to load ${getFrameUrl(index)}; reusing the previous frame when available.`)
-            hasWarnedFrameLoad = true
+            hasWarned = true
           }
           resolve(null)
         }
       })
       image.src = getFrameUrl(index)
-      images[index] = entry
+      entries[index] = entry
       return entry.promise
     }
 
-    const removeWhiteMatte = () => {
-      const pixels = context.getImageData(0, 0, canvas.width, canvas.height)
-      const data = pixels.data
-      for (let offset = 0; offset < data.length; offset += 4) {
-        const red = data[offset]
-        const green = data[offset + 1]
-        const blue = data[offset + 2]
-        const lightest = Math.max(red, green, blue)
-        const darkest = Math.min(red, green, blue)
-        if (lightest < 229 || lightest - darkest > 24) continue
-
-        const brightness = (red + green + blue) / 3
-        if (brightness >= 250) {
-          data[offset + 3] = 0
-          continue
-        }
-
-        const alpha = clamp((250 - brightness) / 21)
-        if (alpha <= 0) {
-          data[offset + 3] = 0
-          continue
-        }
-        data[offset] = clamp((red - 255 * (1 - alpha)) / alpha, 0, 255)
-        data[offset + 1] = clamp((green - 255 * (1 - alpha)) / alpha, 0, 255)
-        data[offset + 2] = clamp((blue - 255 * (1 - alpha)) / alpha, 0, 255)
-        data[offset + 3] = Math.round(255 * alpha)
+    const findDrawable = (index) => {
+      for (let i = index; i >= 0; i -= 1) {
+        const image = entries[i]?.image
+        if (image?.complete && image.naturalWidth) return entries[i]
       }
-      context.putImageData(pixels, 0, 0)
+      return null
     }
 
     const render = () => {
       drawFrame = 0
       if (isDisposed) return
-
       const bounds = canvas.getBoundingClientRect()
       if (!bounds.width || !bounds.height) return
 
+      const entry = findDrawable(currentIndex)
+      if (!entry) return
+
       const pixelRatio = window.devicePixelRatio || 1
-      const scale = Math.min(pixelRatio, window.innerWidth < 768 ? 1.5 : pixelRatio)
+      const scale = Math.min(pixelRatio, window.innerWidth < 768 ? 1.5 : 2)
       const pixelWidth = Math.round(bounds.width * scale)
       const pixelHeight = Math.round(bounds.height * scale)
       if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
         canvas.width = pixelWidth
         canvas.height = pixelHeight
       }
-      context.setTransform(1, 0, 0, 1, 0, 0)
-      context.clearRect(0, 0, canvas.width, canvas.height)
+
+      const { image, background } = entry
       context.setTransform(scale, 0, 0, scale, 0, 0)
+      context.fillStyle = background
+      context.fillRect(0, 0, bounds.width, bounds.height)
 
-      let image = images[currentFrameIndex]?.image
-      if (!image?.complete || !image.naturalWidth) {
-        for (let fallbackIndex = currentFrameIndex - 1; fallbackIndex >= 1; fallbackIndex -= 1) {
-          const previousImage = images[fallbackIndex]?.image
-          if (previousImage?.complete && previousImage.naturalWidth) {
-            image = previousImage
-            break
-          }
-        }
-      }
-      if (!image?.complete || !image.naturalWidth) {
-        lastFrameIndex = currentFrameIndex
-        return
-      }
-
-      const fitScale = Math.min(bounds.width / sourceFrameWidth, bounds.height / sourceFrameHeight)
-      const drawWidth = sourceFrameWidth * fitScale
-      const drawHeight = sourceFrameHeight * fitScale
+      // The start frame fills the screen. Scroll frames are small (768px), so they are
+      // fitted whole and shrunk a little: less upscaling keeps them sharp and the laptop
+      // stays centred with room around it.
+      const isStartFrame = currentIndex === 0 || entry === entries[0]
+      const containScale = Math.min(bounds.width / image.naturalWidth, bounds.height / image.naturalHeight)
+      const coverScale = Math.max(bounds.width / image.naturalWidth, bounds.height / image.naturalHeight)
+      const zoom = bounds.width < 768 ? FRAME_ZOOM_MOBILE : FRAME_ZOOM
+      const fitScale = isStartFrame ? coverScale : containScale * zoom
+      const drawWidth = image.naturalWidth * fitScale
+      const drawHeight = image.naturalHeight * fitScale
+      context.imageSmoothingQuality = 'high'
       context.drawImage(image, (bounds.width - drawWidth) / 2, (bounds.height - drawHeight) / 2, drawWidth, drawHeight)
-      removeWhiteMatte()
-      lastFrameIndex = currentFrameIndex
+      lastDrawn = currentIndex
     }
 
     const scheduleDraw = (force = false) => {
-      if (!force && currentFrameIndex === lastFrameIndex) return
+      if (!force && currentIndex === lastDrawn) return
       if (!drawFrame) drawFrame = window.requestAnimationFrame(render)
     }
 
     const updateProgress = () => {
-      if (isReducedMotion) return
       const containerTop = container.getBoundingClientRect().top + window.scrollY
       const scrollDistance = Math.max(container.offsetHeight - window.innerHeight, 1)
-      progressValue = clamp((window.scrollY - containerTop) / scrollDistance)
-      setSequenceProgress(progressValue)
-
-      const closeProgress = clamp((progressValue - 0.48) / 0.52)
-      const nextFrameIndex = progressValue < 0.48
-        ? FRAME_COUNT
-        : Math.max(1, FRAME_COUNT - Math.round(closeProgress * (FRAME_COUNT - 1)))
-      if (nextFrameIndex !== currentFrameIndex) {
-        currentFrameIndex = nextFrameIndex
+      const progress = clamp((window.scrollY - containerTop) / scrollDistance)
+      const next = progress < START_HOLD
+        ? 0
+        : 1 + Math.round(clamp(progress / SEQUENCE_END) * (FRAME_COUNT - 1))
+      if (next !== currentIndex) {
+        currentIndex = next
         scheduleDraw()
-      }
-    }
-
-    const loadRemainingFrames = () => {
-      for (let index = INITIAL_FRAME_COUNT + 1; index < FRAME_COUNT; index += 1) {
-        loadImage(index).then(() => {
-          if (!isDisposed && index === currentFrameIndex) scheduleDraw(true)
-        })
       }
     }
 
@@ -182,75 +149,44 @@ function NeonKeysIntro() {
       updateProgress()
       scheduleDraw(true)
     }
-    const onMotionChange = (event) => {
-      isReducedMotion = event.matches
-      setReducedMotion(isReducedMotion)
-      if (isReducedMotion) {
-        currentFrameIndex = FRAME_COUNT
-        loadImage(FRAME_COUNT).then(() => {
-          if (!isDisposed && isReducedMotion) scheduleDraw(true)
-        })
-      } else {
-        updateProgress()
-        for (let index = 1; index <= FRAME_COUNT; index += 1) {
-          loadImage(index).then(() => {
-            if (!isDisposed && index === currentFrameIndex) scheduleDraw(true)
-          })
-        }
-      }
-      scheduleDraw(true)
-    }
 
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onResize)
-    mediaQuery.addEventListener?.('change', onMotionChange)
 
-    const initialIndices = [
-      ...Array.from({ length: INITIAL_FRAME_COUNT }, (_, index) => index + 1),
-      FRAME_COUNT,
-    ]
-    if (isReducedMotion) initialIndices.splice(0, initialIndices.length, FRAME_COUNT)
+    const redrawIfCurrent = (index) => {
+      if (!isDisposed && index <= currentIndex) scheduleDraw(true)
+    }
 
-    Promise.all(initialIndices.map((index) => loadImage(index))).then(() => {
+    // First frames immediately, the rest in the background.
+    Promise.all(
+      Array.from({ length: INITIAL_FRAME_COUNT + 1 }, (_, i) => loadImage(i)),
+    ).then(() => {
       if (isDisposed) return
-      setIsReady(true)
-      scheduleDraw(true)
-      if (!isReducedMotion) loadRemainingFrames()
       updateProgress()
+      scheduleDraw(true)
+      for (let index = INITIAL_FRAME_COUNT + 1; index <= FRAME_COUNT; index += 1) {
+        loadImage(index).then(() => redrawIfCurrent(index))
+      }
     })
 
     return () => {
       isDisposed = true
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
-      mediaQuery.removeEventListener?.('change', onMotionChange)
       if (drawFrame) window.cancelAnimationFrame(drawFrame)
       if (scrollFrame) window.cancelAnimationFrame(scrollFrame)
     }
   }, [])
 
-  const laptopEntry = reducedMotion ? 0 : clamp((sequenceProgress - 0.24) / 0.24)
-  const moveProgress = laptopEntry
-  const logoStyle = { opacity: 1 - laptopEntry }
-  const laptopStyle = {
-    aspectRatio: frameAspectRatio,
-    opacity: laptopEntry,
-    '--shift-x': `${moveProgress * 22}vw`,
-    '--laptop-scale': 1.45 - moveProgress * 0.45,
-  }
-
   return (
     <section
       id="intro"
       ref={containerRef}
-      className={`neon-keys-intro${reducedMotion ? ' neon-keys-intro--reduced' : ''}${isReady ? ' neon-keys-intro--ready' : ''}`}
+      className="neon-keys-intro"
       aria-label="Samuel Bannor Annor introduction"
     >
       <div className="neon-keys-intro__sticky">
-        <img className="neon-keys-intro__logo" src="/logo-white.png" alt="Samuel Bannor Annor logo" style={logoStyle} />
-        <div className="neon-keys-intro__laptop" style={laptopStyle} aria-hidden="true">
-          <canvas ref={canvasRef} className="neon-keys-intro__canvas" />
-        </div>
+        <canvas ref={canvasRef} className="neon-keys-intro__canvas" role="img" aria-label="Animated Elphast logo laptop" />
       </div>
     </section>
   )
