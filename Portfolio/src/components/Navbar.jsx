@@ -1,108 +1,97 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { LuHouse, LuUser, LuCode, LuBriefcase, LuMail } from 'react-icons/lu';
 import sammy from '../assets/img/sammy.png'
 import '../styles/Navbar.css';
 
+const navLinks = [
+  { id: 'home', label: 'Home', Icon: LuHouse },
+  { id: 'about', label: 'About', Icon: LuUser },
+  { id: 'skills', label: 'Skills', Icon: LuCode },
+  { id: 'portfolio', label: 'Portfolio', Icon: LuBriefcase },
+  { id: 'contact', label: 'Contact', Icon: LuMail },
+];
+
+// Checked bottom-up: the last section whose top has passed the nav line wins.
+const sectionOrder = [...navLinks].reverse().map((link) => link.id);
+
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const dockRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
       setIsScrolled(window.scrollY > 50);
 
-      const sections = ['contact', 'portfolio', 'about', 'home'];
-      for (const section of sections) {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      dockRef.current?.style.setProperty('--progress', progress.toFixed(4));
+
+      for (const section of sectionOrder) {
         const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
-            setActiveSection(section);
-            break;
-          }
+        if (element && element.getBoundingClientRect().top <= 150) {
+          setActiveSection(section);
+          return;
         }
       }
+      setActiveSection('home');
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isMenuOpen]);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
-
-  const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#portfolio', label: 'Portfolio' },
-    { href: '#contact', label: 'Contact' },
-  ];
+  const activeIndex = Math.max(0, navLinks.findIndex((link) => link.id === activeSection));
 
   return (
     <>
       <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
         <div className="navbar-inner">
-          {/* Logo */}
-          <a href="#home" className="logo" onClick={closeMenu}>
-            <span className="logo-name">
-              <img src={sammy} width={250}/>
+          <a href="#home" className="logo" aria-label="Samuel Bannor Annor, home">
+            <span className="logo-mark">
+              <img src={sammy} alt="" />
             </span>
-            {/* <span className="logo-accent"></span> */}
           </a>
-
-          {/* Desktop + Mobile Nav */}
-          <nav>
-            <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-              {navLinks.map((link, i) => (
-                <li
-                  key={link.label}
-                  className="nav-item"
-                  style={{ animationDelay: `${i * 0.08 + 0.15}s` }}
-                >
-                  <a
-                    href={link.href}
-                    className={`nav-link ${activeSection === link.href.slice(1) ? 'active' : ''}`}
-                    onClick={closeMenu}
-                  >
-                    <span className="nav-index">0{i + 1}</span>
-                    <span className="nav-label">{link.label}</span>
-                  </a>
-                </li>
-              ))}
-              <li className="nav-item nav-cta-item" style={{ animationDelay: '0.5s' }}>
-                <a href="#contact" className="nav-cta" onClick={closeMenu}>
-                  Let's Talk
-                  {/* <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg> */}
-                </a>
-              </li>
-            </ul>
-          </nav>
-
-          {/* Mobile Toggle */}
-          <button
-            className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}
-            onClick={toggleMenu}
-            aria-label="Toggle navigation"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
         </div>
       </header>
 
-      {/* Background overlay */}
-      <div
-        className={`nav-overlay ${isMenuOpen ? 'active' : ''}`}
-        onClick={closeMenu}
-      />
+      <nav
+        ref={dockRef}
+        className={`dock ${isScrolled ? 'scrolled' : ''}`}
+        style={{ '--active': activeIndex }}
+        aria-label="Primary"
+      >
+        <ul className="dock-list">
+          <li className="dock-indicator" aria-hidden="true" />
+          {navLinks.map((link) => (
+            <li key={link.id}>
+              <a
+                href={`#${link.id}`}
+                className={`dock-link ${activeSection === link.id ? 'active' : ''}`}
+                aria-label={link.label}
+                aria-current={activeSection === link.id ? 'page' : undefined}
+                data-label={link.label}
+              >
+                <link.Icon aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+          <li className="dock-progress" aria-hidden="true" />
+        </ul>
+      </nav>
     </>
   );
 };

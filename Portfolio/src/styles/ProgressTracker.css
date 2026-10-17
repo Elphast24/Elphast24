@@ -1,0 +1,56 @@
+/* Numbered progress tracker: huge outlined numerals on a thick curvy line. */
+.tracker {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.tracker.is-visible {
+  opacity: 1;
+}
+
+.tracker__svg {
+  display: block;
+  overflow: visible;
+}
+
+.tracker__track {
+  stroke: rgba(38, 1, 138, 0.09);
+}
+
+/* The fill follows scroll: --tracker-p runs 0 to 1 across the stages (see NeonKeysIntro.jsx). */
+.tracker__progress {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: calc(1 - var(--tracker-p, 0));
+}
+
+.tracker__digit {
+  fill: none;
+  stroke: rgba(11, 11, 20, 0.2);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  font-family: var(--copy-display, 'Bricolage Grotesque', 'Inter', sans-serif);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.04em;
+  transition: stroke 0.4s ease-out, stroke-width 0.4s ease-out;
+}
+
+.tracker__digit.is-done {
+  stroke: rgba(11, 11, 20, 0.5);
+}
+
+.tracker__digit.is-active {
+  stroke: url(#tracker-digit);
+  stroke-width: 3.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tracker,
+  .tracker__digit {
+    transition-duration: 0.01ms;
+  }
+}

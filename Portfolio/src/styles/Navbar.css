@@ -19,8 +19,43 @@
   --radius-sm: 8px;
   --radius-md: 20px;
   --ease: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-spring: cubic-bezier(0.34, 1.35, 0.64, 1);
   --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+
+  /* Dock geometry */
+  --dock-size: 44px;
+  --dock-gap: 4px;
+  --dock-pad: 6px;
+  --dock-height: calc(var(--dock-size) + var(--dock-pad) * 2);
+
+  /* Dock tone: light backdrop (default). Dark backdrop overrides below. */
+  --dock-fill: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.46));
+  --dock-edge: rgba(255, 255, 255, 0.9);
+  --dock-ring: rgba(38, 1, 138, 0.14);
+  --dock-shadow: 0 12px 32px rgba(38, 1, 138, 0.16), 0 2px 6px rgba(11, 11, 20, 0.08);
+  --dock-icon: #4a4d8f;
+  --dock-icon-active: #ffffff;
+  --dock-hover: rgba(38, 1, 138, 0.08);
+  --dock-label-bg: #0b0b14;
+  --dock-label-text: #ffffff;
+  --dock-indicator: linear-gradient(150deg, #5a2bff, #26018a);
+  --dock-indicator-glow: rgba(90, 43, 255, 0.45);
+}
+
+/* The intro opens on black; NeonKeysIntro sets this while the backdrop is dark. */
+:root[data-backdrop='dark'] {
+  --dock-fill: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  --dock-edge: rgba(255, 255, 255, 0.5);
+  --dock-ring: rgba(255, 255, 255, 0.1);
+  --dock-shadow: 0 14px 36px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --dock-icon: #c4cdf5;
+  --dock-hover: rgba(255, 255, 255, 0.12);
+  --dock-label-bg: #ffffff;
+  --dock-label-text: #0b0b14;
+  --dock-indicator: linear-gradient(150deg, #ff4fe0, #7a3cff);
+  --dock-indicator-glow: rgba(255, 79, 224, 0.5);
 }
 
 /* ========================
@@ -33,7 +68,7 @@
 }
 
 /* ========================
-   NAVBAR
+   NAVBAR (logo side)
 ======================== */
 .navbar {
   position: fixed;
@@ -42,18 +77,13 @@
   right: 0;
   height: var(--nav-height);
   z-index: 1000;
-  background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid transparent;
-  transition: all 0.35s var(--ease);
+  background: transparent;
+  pointer-events: none;
+  transition: height 0.35s var(--ease);
 }
 
 .navbar.scrolled {
   height: var(--nav-height-scrolled);
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid var(--border);
-  box-shadow: var(--shadow-md);
 }
 
 .navbar-inner {
@@ -67,249 +97,193 @@
 }
 
 /* ========================
-   LOGO
+   LOGO (frosted capsule: the wordmark is violet, so it needs a light ground)
 ======================== */
 .logo {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
   position: relative;
   z-index: 1001;
-  gap: 4px;
-  transition: transform 0.3s var(--ease);
-}
-
-.logo:hover {
-  transform: translateY(-1px);
-}
-
-.logo-name {
-  font-family: var(--font-sans);
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: 2.5px;
-  line-height: 1;
-  transition: color 0.3s var(--ease);
-}
-
-.logo-accent {
-  width: 28px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent), #a855f7);
-  border-radius: 4px;
-  transition: width 0.3s var(--ease);
-}
-
-.logo:hover .logo-accent {
-  width: 100%;
-}
-
-.logo:hover .logo-name {
-  color: var(--accent);
-}
-
-/* ========================
-   NAV MENU (Desktop)
-======================== */
-.nav-menu {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 4px;
-}
-
-.nav-item {
-  position: relative;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
+  display: grid;
+  place-items: center;
+  height: var(--dock-height);
+  padding: 0 1.25rem;
+  border-radius: 999px;
   text-decoration: none;
-  border-radius: var(--radius-sm);
+  pointer-events: auto;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.7));
+  backdrop-filter: blur(22px) saturate(170%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgba(38, 1, 138, 0.1),
+    0 12px 32px rgba(38, 1, 138, 0.14);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+/* The artwork has wide empty margins; crop to the wordmark (it spans ~60% of the width,
+   centred at ~21% from the left and ~49% from the top). */
+.logo-mark {
+  --logo-w: clamp(104px, 30vw, 124px);
   position: relative;
-  overflow: hidden;
-  transition: all 0.3s var(--ease);
-}
-
-.nav-index {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  color: var(--accent);
-  opacity: 0.8;
-  transition: opacity 0.3s var(--ease);
-}
-
-.nav-label {
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  letter-spacing: 0.3px;
-  transition: color 0.3s var(--ease);
-}
-
-/* Hover state */
-.nav-link:hover {
-  background: var(--accent-light);
-}
-
-.nav-link:hover .nav-label {
-  color: var(--text-primary);
-}
-
-.nav-link:hover .nav-index {
-  opacity: 1;
-}
-
-/* Active state */
-.nav-link.active .nav-label {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 16px;
-  height: 2px;
-  background: var(--accent);
-  border-radius: 2px;
-}
-
-/* ========================
-   CTA BUTTON
-======================== */
-.nav-cta-item {
-  margin-left: 12px;
-}
-
-.nav-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
-  text-decoration: none;
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 600;
-  background: #fff;
-  color: #a855f7;
-  /* background: linear-gradient(135deg, var(--accent), #a855f7); */
-  border: 1px solid#a855f7;
-  border-radius: var(--radius-md);
-  letter-spacing: 0.3px;
-  transition: all 0.3s var(--ease);
-  /* box-shadow: 0 2px 10px var(--accent-glow); */
-}
-
-.nav-cta svg {
-  transition: transform 0.3s var(--ease);
-}
-
-.nav-cta:hover {
-  transform: translateY(-2px);
-  /* box-shadow: 0 6px 25px var(--accent-glow); */
-}
-
-.nav-cta:hover svg {
-  transform: translateX(3px);
-}
-
-/* ========================
-   MOBILE TOGGLE
-======================== */
-.mobile-menu {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  cursor: pointer;
-  z-index: 1001;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--bg);
-  transition: all 0.3s var(--ease);
-  gap: 5px;
-}
-
-.mobile-menu:hover {
-  border-color: var(--accent);
-  background: var(--accent-light);
-}
-
-.mobile-menu span {
   display: block;
-  width: 20px;
-  height: 2px;
-  background: var(--text-primary);
-  border-radius: 4px;
-  transition: all 0.35s var(--ease);
-  transform-origin: center;
+  width: var(--logo-w);
+  aspect-ratio: 3.44;
+  overflow: hidden;
 }
 
-.mobile-menu.active {
-  border-color: var(--accent);
-  background: var(--accent-light);
+.logo-mark img {
+  position: absolute;
+  width: calc(var(--logo-w) / 0.6);
+  max-width: none;
+  height: auto;
+  left: calc(var(--logo-w) * -0.35);
+  top: calc(var(--logo-w) * -0.678);
 }
 
-.mobile-menu.active span {
-  background: var(--accent);
+@media (hover: hover) {
+  .logo:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 #ffffff,
+      0 0 0 1px rgba(38, 1, 138, 0.18),
+      0 16px 36px rgba(38, 1, 138, 0.2);
+  }
 }
 
-.mobile-menu.active span:nth-child(1) {
-  transform: rotate(45deg) translate(4px, 5px);
-}
-
-.mobile-menu.active span:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-
-.mobile-menu.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(4px, -5px);
+.logo:focus-visible,
+.dock-link:focus-visible {
+  outline: 2px solid #7a3cff;
+  outline-offset: 3px;
 }
 
 /* ========================
-   OVERLAY
+   DOCK (right side, glass pill)
 ======================== */
-.nav-overlay {
+.dock {
   position: fixed;
-  inset: 0;
-  background: rgba(26, 26, 46, 0.4);
-  backdrop-filter: blur(6px);
-  z-index: 998;
+  z-index: 1002;
+  top: calc((var(--nav-height) - var(--dock-height)) / 2);
+  right: max(2.5rem, calc((100vw - 1200px) / 2 + 2.5rem));
+  transition: top 0.35s var(--ease);
+}
+
+.dock.scrolled {
+  top: calc((var(--nav-height-scrolled) - var(--dock-height)) / 2);
+}
+
+.dock-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--dock-gap);
+  padding: var(--dock-pad);
+  list-style: none;
+  border-radius: 999px;
+  background: var(--dock-fill);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 var(--dock-edge),
+    0 0 0 1px var(--dock-ring),
+    var(--dock-shadow);
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+/* One bubble that springs between items instead of fading on each. */
+.dock-indicator {
+  position: absolute;
+  top: var(--dock-pad);
+  left: var(--dock-pad);
+  width: var(--dock-size);
+  height: var(--dock-size);
+  border-radius: 50%;
+  background: var(--dock-indicator);
+  box-shadow: 0 6px 18px var(--dock-indicator-glow), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateX(calc(var(--active) * (var(--dock-size) + var(--dock-gap))));
+  transition: transform 0.55s var(--ease-spring), background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  pointer-events: none;
+}
+
+.dock-link {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--dock-size);
+  height: var(--dock-size);
+  border-radius: 50%;
+  color: var(--dock-icon);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: color 0.25s var(--ease-out), background-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+
+.dock-link svg {
+  width: 21px;
+  height: 21px;
+  stroke-width: 1.75;
+}
+
+.dock-link.active {
+  color: var(--dock-icon-active);
+}
+
+/* Label that floats under the pill on hover / keyboard focus. */
+.dock-link::after {
+  content: attr(data-label);
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--dock-label-bg);
+  color: var(--dock-label-text);
+  font: 600 0.75rem/1 var(--font-sans);
+  white-space: nowrap;
   opacity: 0;
-  visibility: hidden;
-  transition: all 0.35s var(--ease);
+  transform: translate(-50%, -4px);
+  pointer-events: none;
+  transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out);
 }
 
-.nav-overlay.active {
+.dock-link:focus-visible::after {
   opacity: 1;
-  visibility: visible;
+  transform: translate(-50%, 0);
 }
 
-/* ========================
-   MOBILE KEYFRAMES
-======================== */
-@keyframes navSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
+@media (hover: hover) {
+  .dock-link:hover {
+    background-color: var(--dock-hover);
   }
-  to {
+
+  .dock-link.active:hover {
+    background-color: transparent;
+  }
+
+  .dock-link:hover::after {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate(-50%, 0);
+    transition-delay: 0.25s;
   }
+}
+
+.dock-link:active {
+  transform: scale(0.92);
+}
+
+/* Page scroll progress: a hairline inside the bottom edge of the pill. */
+.dock-progress {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #26018a, #ff00d4);
+  opacity: 0.85;
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  pointer-events: none;
 }
 
 /* ========================
@@ -320,132 +294,42 @@
     padding: 0 1.5rem;
   }
 
-  .nav-link {
-    padding: 8px 12px;
-  }
-
-  .nav-cta {
-    padding: 9px 18px;
+  .dock {
+    right: 1.5rem;
   }
 }
 
 /* ========================
-   RESPONSIVE — MOBILE
+   RESPONSIVE — PHONE (dock moves to the bottom)
 ======================== */
-@media (max-width: 768px) {
-  .navbar-inner {
-    padding: 0 1.25rem;
+@media (max-width: 640px) {
+  :root {
+    --dock-size: 48px;
   }
 
-  .mobile-menu {
-    display: flex;
-  }
-
-  .logo-name {
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-  }
-
-  .logo-accent {
-    width: 22px;
-  }
-
-  /* Side drawer */
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: min(80vw, 360px);
-    height: 100vh;
-    height: 100dvh;
-    background: var(--bg);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    padding: 80px 32px 40px;
-    z-index: 999;
-    transition: right 0.45s var(--ease);
-    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.15);
-    border-left: 1px solid var(--border);
-  }
-
-  .nav-menu.active {
-    right: 0;
-  }
-
-  /* Staggered slide-in */
-  .nav-menu.active .nav-item {
-    animation: navSlideIn 0.4s var(--ease) forwards;
-    opacity: 0;
-  }
-
-  .nav-link {
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: var(--radius-sm);
-    justify-content: flex-start;
-  }
-
-  .nav-link.active::after {
-    bottom: auto;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 18px;
-    border-radius: 0 4px 4px 0;
-  }
-
-  .nav-label {
-    font-size: 1rem;
-  }
-
-  .nav-index {
-    font-size: 0.75rem;
-  }
-
-  /* CTA in mobile */
-  .nav-cta-item {
-    margin-left: 0;
-    margin-top: 16px;
-    width: 100%;
-  }
-
-  .nav-cta {
-    width: 100%;
-    justify-content: center;
-    padding: 14px 24px;
-    font-size: 0.95rem;
-    border-radius: var(--radius);
-  }
-}
-
-/* ========================
-   RESPONSIVE — SMALL
-======================== */
-@media (max-width: 480px) {
   .navbar-inner {
     padding: 0 1rem;
   }
 
-  .logo-name {
-    font-size: 1.1rem;
-    letter-spacing: 1.5px;
+  .dock,
+  .dock.scrolled {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
   }
 
-  .nav-menu {
-    width: 100vw;
-    padding: 80px 24px 40px;
+  /* Labels open upward so the thumb does not cover them. */
+  .dock-link::after {
+    top: auto;
+    bottom: calc(100% + 14px);
+    transform: translate(-50%, 4px);
   }
 
-  .mobile-menu {
-    width: 40px;
-    height: 40px;
-  }
-
-  .mobile-menu span {
-    width: 18px;
+  /* Keep the page footer clear of the floating dock. */
+  body {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
   }
 }
 

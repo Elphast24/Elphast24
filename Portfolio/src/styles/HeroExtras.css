@@ -1,0 +1,491 @@
+/* Hero content around the laptop. White backdrop, ink type, violet-to-magenta accent. */
+.hero-ui {
+  --ui-ink: #0b0b14;
+  --ui-slate: #4a4d63;
+  --ui-line: rgba(38, 1, 138, 0.12);
+  --ui-glass: rgba(255, 255, 255, 0.72);
+  --ui-shadow: 0 18px 44px rgba(38, 1, 138, 0.12), 0 2px 6px rgba(11, 11, 20, 0.06);
+  --ui-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(6rem, 12svh, 7.5rem) clamp(1.25rem, 4vw, 4.5rem) var(--hero-pad-b);
+  pointer-events: none;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  color: var(--ui-ink);
+}
+
+.hero-ui a,
+.hero-ui button {
+  pointer-events: auto;
+}
+
+/* Page heading for assistive tech; the visible headline is the verb on the left. */
+.hero-ui__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ===== Entrance: fade out fast, rise in staggered ===== */
+.hero-ui__badge,
+.hero-ui__building,
+.hero-ui__kicker,
+.hero-ui__actions,
+.hero-ui__proof,
+.hero-ui__featured {
+  transition: opacity 0.25s ease-out;
+}
+
+.hero-ui:not(.is-live) .hero-ui__badge,
+.hero-ui:not(.is-live) .hero-ui__building,
+.hero-ui:not(.is-live) .hero-ui__kicker,
+.hero-ui:not(.is-live) .hero-ui__actions,
+.hero-ui:not(.is-live) .hero-ui__proof,
+.hero-ui:not(.is-live) .hero-ui__featured {
+  opacity: 0;
+}
+
+.hero-ui.is-live .hero-ui__badge,
+.hero-ui.is-live .hero-ui__building,
+.hero-ui.is-live .hero-ui__kicker,
+.hero-ui.is-live .hero-ui__actions,
+.hero-ui.is-live .hero-ui__proof,
+.hero-ui.is-live .hero-ui__featured {
+  animation: hero-ui-in 0.8s var(--ui-out) backwards;
+  animation-delay: calc(var(--i, 0) * 90ms + 350ms);
+}
+
+@keyframes hero-ui-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* ===== Top row ===== */
+.hero-ui__badge {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--ui-glass);
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px var(--ui-line), 0 8px 24px rgba(38, 1, 138, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ui-slate);
+}
+
+.hero-ui__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1fbf7a;
+  box-shadow: 0 0 0 4px rgba(31, 191, 122, 0.16);
+}
+
+.hero-ui__building {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: start;
+  width: min(16.5rem, 100%);
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  background: var(--ui-glass);
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px var(--ui-line), var(--ui-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+/* A single accent: the brand gradient as a hairline across the top of the card. */
+.hero-ui__building::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, #26018a, #ff00d4);
+}
+
+.hero-ui__building header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero-ui__building h2 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hero-ui__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ui-ink);
+  color: #fff;
+}
+
+.hero-ui__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.hero-ui__building ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-ui__building li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--ui-line);
+}
+
+.hero-ui__building li span {
+  display: grid;
+}
+
+.hero-ui__building strong,
+.hero-ui__project-body strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.hero-ui__building small,
+.hero-ui__project-body small {
+  font-size: 0.72rem;
+  color: var(--ui-slate);
+}
+
+.hero-ui__building em {
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(38, 1, 138, 0.08);
+  color: #26018a;
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ===== Bottom left: who, what to do, proof ===== */
+.hero-ui__base {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  display: grid;
+  gap: 1.1rem;
+  max-width: 27rem;
+}
+
+.hero-ui__kicker {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ui-slate);
+}
+
+.hero-ui__typed,
+.hero-ui .typed-cursor {
+  color: #26018a;
+  font-weight: 700;
+}
+
+.hero-ui__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+}
+
+.hero-ui__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 6px 6px 6px 1.5rem;
+  border-radius: 999px;
+  background: var(--ui-ink);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(11, 11, 20, 0.22);
+  transition: transform 0.25s var(--ui-out), box-shadow 0.25s var(--ui-out);
+}
+
+.hero-ui__cta-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7a3cff, #ff4fe0);
+  color: #fff;
+  transition: transform 0.25s var(--ui-out);
+}
+
+.hero-ui__cta-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.hero-ui__link {
+  padding: 0.5rem 0;
+  border-bottom: 2px dashed rgba(11, 11, 20, 0.3);
+  color: var(--ui-ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s var(--ui-out), border-color 0.2s var(--ui-out);
+}
+
+.hero-ui__cta:focus-visible,
+.hero-ui__link:focus-visible,
+.hero-ui__socials a:focus-visible,
+.hero-ui__project:focus-visible {
+  outline: 2px solid #7a3cff;
+  outline-offset: 4px;
+}
+
+@media (hover: hover) {
+  .hero-ui__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(11, 11, 20, 0.28);
+  }
+
+  .hero-ui__cta:hover .hero-ui__cta-icon {
+    transform: translate(2px, -2px);
+  }
+
+  .hero-ui__link:hover {
+    color: #26018a;
+    border-color: #26018a;
+  }
+}
+
+.hero-ui__cta:active {
+  transform: scale(0.98);
+}
+
+.hero-ui__proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ui-line);
+}
+
+.hero-ui__stats {
+  display: flex;
+  margin: 0;
+}
+
+.hero-ui__stats div {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 0 1.25rem;
+  border-left: 1px solid var(--ui-line);
+}
+
+.hero-ui__stats div:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.hero-ui__stats dd {
+  margin: 0;
+  font-family: var(--copy-display, 'Bricolage Grotesque', 'Inter', sans-serif);
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.hero-ui__stats dt {
+  font-size: 0.75rem;
+  color: var(--ui-slate);
+}
+
+.hero-ui__socials {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-ui__socials a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--ui-line);
+  color: var(--ui-slate);
+  transition: color 0.2s var(--ui-out), background-color 0.2s var(--ui-out);
+}
+
+.hero-ui__socials svg {
+  width: 17px;
+  height: 17px;
+}
+
+@media (hover: hover) {
+  .hero-ui__socials a:hover {
+    background-color: rgba(38, 1, 138, 0.07);
+    color: #26018a;
+  }
+}
+
+/* ===== Bottom right: featured project, follows the stage ===== */
+.hero-ui__featured {
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: end;
+  align-self: end;
+  display: grid;
+  width: min(17.5rem, 100%);
+}
+
+.hero-ui__project {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.75rem;
+  border-radius: 18px;
+  background: var(--ui-glass);
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px var(--ui-line), var(--ui-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--ui-ink);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.3s ease-out, transform 0.45s var(--ui-out);
+}
+
+.hero-ui__project.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0.25s;
+}
+
+.hero-ui__project img {
+  flex: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.hero-ui__project-body {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.hero-ui__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.hero-ui__tags span {
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(38, 1, 138, 0.07);
+  color: #26018a;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.hero-ui__project-arrow {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--ui-slate);
+}
+
+/* ===== Phones and small tablets: keep only what the layout can carry ===== */
+@media (max-width: 900px) {
+  .hero-ui {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: var(--hero-pad-b);
+  }
+
+  .hero-ui__badge,
+  .hero-ui__building,
+  .hero-ui__kicker,
+  .hero-ui__proof,
+  .hero-ui__featured {
+    display: none;
+  }
+
+  .hero-ui__base {
+    grid-column: 1;
+    justify-self: center;
+    max-width: none;
+  }
+
+  .hero-ui__actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  /* The bottom dock is clear of the actions via --hero-pad-b (set in NeonKeysIntro.css). */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ui.is-live .hero-ui__badge,
+  .hero-ui.is-live .hero-ui__building,
+  .hero-ui.is-live .hero-ui__kicker,
+  .hero-ui.is-live .hero-ui__actions,
+  .hero-ui.is-live .hero-ui__proof,
+  .hero-ui.is-live .hero-ui__featured {
+    animation: none;
+  }
+
+  .hero-ui__project,
+  .hero-ui__project.is-active {
+    transition-duration: 0.01ms;
+    transition-delay: 0s;
+  }
+}
