@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { LuHouse, LuUser, LuCode, LuBriefcase, LuMail } from 'react-icons/lu';
-import sammy from '../assets/img/sammy.png'
+import { LuMail } from 'react-icons/lu';
 import '../styles/Navbar.css';
 
+const EMAIL = 'samuelbannor44@gmail.com';
+
 const navLinks = [
-  { id: 'home', label: 'Home', Icon: LuHouse },
-  { id: 'about', label: 'About', Icon: LuUser },
-  { id: 'skills', label: 'Skills', Icon: LuCode },
-  { id: 'portfolio', label: 'Portfolio', Icon: LuBriefcase },
-  { id: 'contact', label: 'Contact', Icon: LuMail },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'portfolio', label: 'Portfolio' },
+  { id: 'contact', label: 'Contact' },
 ];
 
 // Checked bottom-up: the last section whose top has passed the nav line wins.
@@ -17,7 +17,7 @@ const sectionOrder = [...navLinks].reverse().map((link) => link.id);
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  const dockRef = useRef(null);
+  const navRef = useRef(null);
 
   useEffect(() => {
     let frame = 0;
@@ -28,7 +28,7 @@ const Navbar = () => {
 
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-      dockRef.current?.style.setProperty('--progress', progress.toFixed(4));
+      navRef.current?.style.setProperty('--progress', progress.toFixed(4));
 
       for (const section of sectionOrder) {
         const element = document.getElementById(section);
@@ -54,45 +54,37 @@ const Navbar = () => {
     };
   }, []);
 
-  const activeIndex = Math.max(0, navLinks.findIndex((link) => link.id === activeSection));
-
   return (
-    <>
-      <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="navbar-inner">
-          <a href="#home" className="logo" aria-label="Samuel Bannor Annor, home">
-            <span className="logo-mark">
-              <img src={sammy} alt="" />
-            </span>
-          </a>
-        </div>
-      </header>
+    <nav
+      ref={navRef}
+      className={`pill-nav ${isScrolled ? 'scrolled' : ''}`}
+      aria-label="Primary"
+    >
+      <a href="#home" className="pill-logo" aria-label="Samuel Bannor Annor, home">
+        S
+      </a>
 
-      <nav
-        ref={dockRef}
-        className={`dock ${isScrolled ? 'scrolled' : ''}`}
-        style={{ '--active': activeIndex }}
-        aria-label="Primary"
-      >
-        <ul className="dock-list">
-          <li className="dock-indicator" aria-hidden="true" />
-          {navLinks.map((link) => (
-            <li key={link.id}>
-              <a
-                href={`#${link.id}`}
-                className={`dock-link ${activeSection === link.id ? 'active' : ''}`}
-                aria-label={link.label}
-                aria-current={activeSection === link.id ? 'page' : undefined}
-                data-label={link.label}
-              >
-                <link.Icon aria-hidden="true" />
-              </a>
-            </li>
-          ))}
-          <li className="dock-progress" aria-hidden="true" />
-        </ul>
-      </nav>
-    </>
+      <ul className="pill-links">
+        {navLinks.map((link) => (
+          <li key={link.id} className={`pill-item pill-item-${link.id}`}>
+            <a
+              href={`#${link.id}`}
+              className={`pill-link ${activeSection === link.id ? 'active' : ''}`}
+              aria-current={activeSection === link.id ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <a href={`mailto:${EMAIL}`} className="pill-cta" aria-label={`Email ${EMAIL}`}>
+        <LuMail className="pill-cta-icon" aria-hidden="true" />
+        <span className="pill-cta-text">{EMAIL}</span>
+      </a>
+
+      <span className="pill-progress" aria-hidden="true" />
+    </nav>
   );
 };
 

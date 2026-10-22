@@ -1,6 +1,10 @@
 import { ReactTyped } from 'react-typed'
 import { LuArrowUpRight, LuCode, LuMail } from 'react-icons/lu'
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa'
+import {
+  HTML5, CSS3, JavaScript, TypeScript, React as ReactIcon, NodeJs, ExpressJsLight, MongoDB, Python,
+  Git, GitHubDark, Redux, TailwindCSS, Sass, Figma, Firebase, ViteJS,
+} from 'developer-icons'
 import tsaWeb from '../assets/img/works/tsaWeb.png'
 import imageClassifier from '../assets/img/works/ImageClassifier.png'
 import slinq from '../assets/img/works/slinq.png'
@@ -19,6 +23,37 @@ const STATS = [
   { value: '5+', label: 'Happy clients' },
 ]
 
+// Tools from the Skills section and the projects, laid out in staggered rows (tiles per row).
+const TOOLS = [
+  { name: 'React', Icon: ReactIcon }, { name: 'JavaScript', Icon: JavaScript }, { name: 'TypeScript', Icon: TypeScript },
+  { name: 'Node.js', Icon: NodeJs }, { name: 'Express', Icon: ExpressJsLight },
+  { name: 'MongoDB', Icon: MongoDB }, { name: 'Python', Icon: Python }, { name: 'Redux', Icon: Redux },
+  { name: 'Firebase', Icon: Firebase },
+  { name: 'HTML5', Icon: HTML5 }, { name: 'CSS3', Icon: CSS3 }, { name: 'Tailwind CSS', Icon: TailwindCSS },
+  { name: 'Sass', Icon: Sass }, { name: 'Vite', Icon: ViteJS },
+  { name: 'Git', Icon: Git }, { name: 'GitHub', Icon: GitHubDark }, { name: 'Figma', Icon: Figma },
+]
+const TOOL_ROWS = [5, 4, 5, 3]
+const TOOL_LAYOUT = (() => {
+  let index = 0
+  return TOOL_ROWS.flatMap((count, row) =>
+    Array.from({ length: count }, (_, col) => {
+      const i = index++
+      const jitter = (k) => Math.sin(i * k) * 6
+      return {
+        ...TOOLS[i],
+        x: (col + (5 - count) / 2) * 20 + 10,
+        y: row * 25 + 12,
+        jx: jitter(12.9898),
+        jy: jitter(78.233),
+        tilt: Math.sin(i * 4.1414) * 7,
+        delay: -((i * 0.83) % 5),
+        dur: 4.2 + (i % 4) * 0.7,
+      }
+    }),
+  )
+})()
+
 const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/Elphast24', Icon: FaGithub, external: true },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/samuel-bannor-annor/', Icon: FaLinkedinIn, external: true },
@@ -34,10 +69,20 @@ function HeroExtras({ stage }) {
     <div className={`hero-ui${live ? ' is-live' : ''}`} inert={!live}>
       <h1 className="hero-ui__title">Samuel Bannor Annor, full-stack developer and designer</h1>
 
-      <div className="hero-ui__badge" style={{ '--i': 0 }}>
-        <span className="hero-ui__dot" aria-hidden="true" />
-        Available for freelance work
-      </div>
+      <ul className="hero-ui__tools" style={{ '--i': 0 }} aria-label="Tools I use">
+        {TOOL_LAYOUT.map(({ name, Icon, x, y, jx, jy, tilt, delay, dur }) => (
+          <li
+            key={name}
+            className="hero-ui__tool"
+            style={{ '--x': `${x}%`, '--y': `${y}%`, '--jx': `${jx}px`, '--jy': `${jy}px`, '--tilt': `${tilt}deg`, '--delay': `${delay}s`, '--dur': `${dur}s` }}
+          >
+            <span className="hero-ui__tool-tile" data-name={name}>
+              <Icon size={26} aria-hidden="true" />
+              <span className="hero-ui__sr">{name}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
 
       <article className="hero-ui__building" style={{ '--i': 1 }}>
         <header>

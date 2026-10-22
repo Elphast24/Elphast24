@@ -24,38 +24,19 @@
   --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
 
-  /* Dock geometry */
-  --dock-size: 44px;
-  --dock-gap: 4px;
-  --dock-pad: 6px;
-  --dock-height: calc(var(--dock-size) + var(--dock-pad) * 2);
-
-  /* Dock tone: light backdrop (default). Dark backdrop overrides below. */
-  --dock-fill: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.46));
-  --dock-edge: rgba(255, 255, 255, 0.9);
-  --dock-ring: rgba(38, 1, 138, 0.14);
-  --dock-shadow: 0 12px 32px rgba(38, 1, 138, 0.16), 0 2px 6px rgba(11, 11, 20, 0.08);
-  --dock-icon: #4a4d8f;
-  --dock-icon-active: #ffffff;
-  --dock-hover: rgba(38, 1, 138, 0.08);
-  --dock-label-bg: #0b0b14;
-  --dock-label-text: #ffffff;
-  --dock-indicator: linear-gradient(150deg, #5a2bff, #26018a);
-  --dock-indicator-glow: rgba(90, 43, 255, 0.45);
-}
-
-/* The intro opens on black; NeonKeysIntro sets this while the backdrop is dark. */
-:root[data-backdrop='dark'] {
-  --dock-fill: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-  --dock-edge: rgba(255, 255, 255, 0.5);
-  --dock-ring: rgba(255, 255, 255, 0.1);
-  --dock-shadow: 0 14px 36px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
-  --dock-icon: #c4cdf5;
-  --dock-hover: rgba(255, 255, 255, 0.12);
-  --dock-label-bg: #ffffff;
-  --dock-label-text: #0b0b14;
-  --dock-indicator: linear-gradient(150deg, #ff4fe0, #7a3cff);
-  --dock-indicator-glow: rgba(255, 79, 224, 0.5);
+  /* Pill nav */
+  --pill-bg: #1c1c1e;
+  --pill-ring: rgba(255, 255, 255, 0.08);
+  --pill-shadow: 0 14px 36px rgba(11, 11, 20, 0.35), 0 2px 6px rgba(11, 11, 20, 0.2);
+  --pill-text: rgba(255, 255, 255, 0.82);
+  --pill-text-active: #ffffff;
+  --pill-hover: rgba(255, 255, 255, 0.1);
+  --pill-active: rgba(255, 255, 255, 0.14);
+  --pill-cta-bg: #ffffff;
+  --pill-cta-text: #0b0b14;
+  --pill-height: 56px;
+  --pill-pad: 6px;
+  --pill-inner: calc(var(--pill-height) - var(--pill-pad) * 2);
 }
 
 /* ========================
@@ -68,268 +49,187 @@
 }
 
 /* ========================
-   NAVBAR (logo side)
+   PILL NAV (centered, floating)
 ======================== */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--nav-height);
-  z-index: 1000;
-  background: transparent;
-  pointer-events: none;
-  transition: height 0.35s var(--ease);
-}
-
-.navbar.scrolled {
-  height: var(--nav-height-scrolled);
-}
-
-.navbar-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2.5rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* ========================
-   LOGO (frosted capsule: the wordmark is violet, so it needs a light ground)
-======================== */
-.logo {
-  position: relative;
-  z-index: 1001;
-  display: grid;
-  place-items: center;
-  height: var(--dock-height);
-  padding: 0 1.25rem;
-  border-radius: 999px;
-  text-decoration: none;
-  pointer-events: auto;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.7));
-  backdrop-filter: blur(22px) saturate(170%);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
-  box-shadow:
-    inset 0 1px 0 #ffffff,
-    0 0 0 1px rgba(38, 1, 138, 0.1),
-    0 12px 32px rgba(38, 1, 138, 0.14);
-  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
-}
-
-/* The artwork has wide empty margins; crop to the wordmark (it spans ~60% of the width,
-   centred at ~21% from the left and ~49% from the top). */
-.logo-mark {
-  --logo-w: clamp(104px, 30vw, 124px);
-  position: relative;
-  display: block;
-  width: var(--logo-w);
-  aspect-ratio: 3.44;
-  overflow: hidden;
-}
-
-.logo-mark img {
-  position: absolute;
-  width: calc(var(--logo-w) / 0.6);
-  max-width: none;
-  height: auto;
-  left: calc(var(--logo-w) * -0.35);
-  top: calc(var(--logo-w) * -0.678);
-}
-
-@media (hover: hover) {
-  .logo:hover {
-    transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 #ffffff,
-      0 0 0 1px rgba(38, 1, 138, 0.18),
-      0 16px 36px rgba(38, 1, 138, 0.2);
-  }
-}
-
-.logo:focus-visible,
-.dock-link:focus-visible {
-  outline: 2px solid #7a3cff;
-  outline-offset: 3px;
-}
-
-/* ========================
-   DOCK (right side, glass pill)
-======================== */
-.dock {
+.pill-nav {
   position: fixed;
   z-index: 1002;
-  top: calc((var(--nav-height) - var(--dock-height)) / 2);
-  right: max(2.5rem, calc((100vw - 1200px) / 2 + 2.5rem));
-  transition: top 0.35s var(--ease);
-}
-
-.dock.scrolled {
-  top: calc((var(--nav-height-scrolled) - var(--dock-height)) / 2);
-}
-
-.dock-list {
-  position: relative;
+  top: calc((var(--nav-height) - var(--pill-height)) / 2);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: var(--dock-gap);
-  padding: var(--dock-pad);
-  list-style: none;
+  gap: 0.5rem;
+  height: var(--pill-height);
+  padding: var(--pill-pad);
+  max-width: calc(100vw - 2rem);
   border-radius: 999px;
-  background: var(--dock-fill);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  box-shadow:
-    inset 0 1px 0 var(--dock-edge),
-    0 0 0 1px var(--dock-ring),
-    var(--dock-shadow);
-  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  background: var(--pill-bg);
+  box-shadow: 0 0 0 1px var(--pill-ring), var(--pill-shadow);
+  font-family: var(--font-sans);
+  transition: top 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 
-/* One bubble that springs between items instead of fading on each. */
-.dock-indicator {
-  position: absolute;
-  top: var(--dock-pad);
-  left: var(--dock-pad);
-  width: var(--dock-size);
-  height: var(--dock-size);
-  border-radius: 50%;
-  background: var(--dock-indicator);
-  box-shadow: 0 6px 18px var(--dock-indicator-glow), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  transform: translateX(calc(var(--active) * (var(--dock-size) + var(--dock-gap))));
-  transition: transform 0.55s var(--ease-spring), background 0.4s var(--ease), box-shadow 0.4s var(--ease);
-  pointer-events: none;
+.pill-nav.scrolled {
+  top: calc((var(--nav-height-scrolled) - var(--pill-height)) / 2);
 }
 
-.dock-link {
-  position: relative;
-  z-index: 1;
+/* Logo: white disc with a monogram */
+.pill-logo {
+  flex: none;
   display: grid;
   place-items: center;
-  width: var(--dock-size);
-  height: var(--dock-size);
+  width: var(--pill-inner);
+  height: var(--pill-inner);
   border-radius: 50%;
-  color: var(--dock-icon);
+  background: var(--pill-cta-bg);
+  color: #26018a;
+  font: 800 1.125rem/1 var(--font-sans);
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  transition: color 0.25s var(--ease-out), background-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+  transition: transform 0.2s var(--ease-out);
 }
 
-.dock-link svg {
-  width: 21px;
-  height: 21px;
-  stroke-width: 1.75;
+.pill-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
 }
 
-.dock-link.active {
-  color: var(--dock-icon-active);
-}
-
-/* Label that floats under the pill on hover / keyboard focus. */
-.dock-link::after {
-  content: attr(data-label);
-  position: absolute;
-  top: calc(100% + 14px);
-  left: 50%;
-  padding: 5px 10px;
-  border-radius: 8px;
-  background: var(--dock-label-bg);
-  color: var(--dock-label-text);
-  font: 600 0.75rem/1 var(--font-sans);
+.pill-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  color: var(--pill-text);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
   white-space: nowrap;
-  opacity: 0;
-  transform: translate(-50%, -4px);
-  pointer-events: none;
-  transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
 
-.dock-link:focus-visible::after {
-  opacity: 1;
-  transform: translate(-50%, 0);
+.pill-link.active {
+  color: var(--pill-text-active);
+  background-color: var(--pill-active);
+}
+
+/* White email button */
+.pill-cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: var(--pill-inner);
+  padding: 0 1.25rem;
+  border-radius: 999px;
+  background: var(--pill-cta-bg);
+  color: var(--pill-cta-text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+}
+
+.pill-cta-icon {
+  display: none;
+  width: 20px;
+  height: 20px;
 }
 
 @media (hover: hover) {
-  .dock-link:hover {
-    background-color: var(--dock-hover);
+  .pill-link:hover:not(.active) {
+    color: var(--pill-text-active);
+    background-color: var(--pill-hover);
   }
 
-  .dock-link.active:hover {
-    background-color: transparent;
-  }
-
-  .dock-link:hover::after {
-    opacity: 1;
-    transform: translate(-50%, 0);
-    transition-delay: 0.25s;
+  .pill-logo:hover,
+  .pill-cta:hover {
+    transform: scale(1.04);
   }
 }
 
-.dock-link:active {
-  transform: scale(0.92);
+.pill-link:active,
+.pill-logo:active,
+.pill-cta:active {
+  transform: scale(0.96);
 }
 
-/* Page scroll progress: a hairline inside the bottom edge of the pill. */
-.dock-progress {
+.pill-nav a:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #7a3cff;
+}
+
+/* Page scroll progress: a hairline along the bottom edge of the pill. */
+.pill-progress {
   position: absolute;
-  left: 22px;
-  right: 22px;
-  bottom: 2px;
+  left: 28px;
+  right: 28px;
+  bottom: 1px;
   height: 2px;
   border-radius: 2px;
   background: linear-gradient(90deg, #26018a, #ff00d4);
-  opacity: 0.85;
   transform: scaleX(var(--progress, 0));
   transform-origin: left;
   pointer-events: none;
 }
 
 /* ========================
-   RESPONSIVE — TABLET
+   RESPONSIVE — NARROW DESKTOP / TABLET
 ======================== */
-@media (max-width: 1024px) {
-  .navbar-inner {
-    padding: 0 1.5rem;
+@media (max-width: 860px) {
+  .pill-link {
+    padding: 0 0.75rem;
   }
 
-  .dock {
-    right: 1.5rem;
+  /* Email collapses to an icon button */
+  .pill-cta {
+    width: var(--pill-inner);
+    padding: 0;
+    justify-content: center;
+  }
+
+  .pill-cta-icon {
+    display: block;
+  }
+
+  .pill-cta-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 }
 
 /* ========================
-   RESPONSIVE — PHONE (dock moves to the bottom)
+   RESPONSIVE — PHONE (pill moves to the bottom)
 ======================== */
 @media (max-width: 640px) {
-  :root {
-    --dock-size: 48px;
-  }
-
-  .navbar-inner {
-    padding: 0 1rem;
-  }
-
-  .dock,
-  .dock.scrolled {
+  .pill-nav,
+  .pill-nav.scrolled {
     top: auto;
-    right: auto;
-    left: 50%;
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    transform: translateX(-50%);
+    gap: 0.25rem;
   }
 
-  /* Labels open upward so the thumb does not cover them. */
-  .dock-link::after {
-    top: auto;
-    bottom: calc(100% + 14px);
-    transform: translate(-50%, 4px);
+  .pill-link {
+    padding: 0 0.625rem;
+    font-size: 0.875rem;
   }
 
-  /* Keep the page footer clear of the floating dock. */
-  body {
-    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  /* The email button already covers contact. */
+  .pill-item-contact {
+    display: none;
   }
 }
 

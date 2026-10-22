@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { LuArrowUpRight, LuChevronLeft, LuChevronRight, LuLock } from 'react-icons/lu';
+import '../styles/Sections.css';
 import '../styles/Projects.css';
 import tsaWeb from '../assets/img/works/tsaWeb.png';
 import newImage from '../assets/img/new.png';
@@ -13,324 +15,434 @@ import slinq from '../assets/img/works/slinq.png';
 import vv from '../assets/img/works/vv.png';
 import titi from '../assets/img/works/titi.png';
 
+const projectData = [
+  {
+    id: 1,
+    title: 'TSA Web Platform',
+    description:
+      'Enterprise-level web platform featuring advanced UI/UX design, real-time data visualization, and seamless user experience optimization.',
+    image: tsaWeb,
+    link: 'https://bespoke-choux-b0059d.netlify.app/',
+    tags: ['React', 'UI/UX'],
+    category: 'Web App',
+  },
+  {
+    id: 2,
+    title: 'Gaming Website',
+    description:
+      'Full-stack web application with sophisticated content management system and responsive design implementation.',
+    image: newImage,
+    link: 'https://quickstock-2r9a.onrender.com',
+    tags: ['Full Stack', 'CMS'],
+    category: 'Web App',
+  },
+  {
+    id: 3,
+    title: 'Restaurant Management',
+    description:
+      'Comprehensive restaurant management system with online ordering, inventory tracking, and customer relationship management.',
+    image: resto,
+    link: 'http://gripsonresto-e001.netlify.app/',
+    tags: ['React', 'Node.js'],
+    category: 'Web App',
+  },
+  {
+    id: 4,
+    title: 'Ultimate Football Experience',
+    description:
+      'Gaming system with interactive features, progress tracking, and multimedia content delivery.',
+    image: ufe,
+    link: 'https://dls-1.onrender.com/',
+    tags: ['JavaScript', 'Gaming'],
+    category: 'Web App',
+  },
+  {
+    id: 5,
+    title: 'AI Image Classifier',
+    description:
+      'Machine learning integrated web application with real-time image classification and advanced data processing capabilities.',
+    image: imageClassifier,
+    link: 'https://amber-katalin-58.tiiny.site/',
+    tags: ['AI/ML', 'Python'],
+    category: 'AI/ML',
+  },
+  {
+    id: 6,
+    title: 'Email Automation',
+    description:
+      'Professional email generation and automation tool with template management and advanced customization options.',
+    image: emailGenerator,
+    link: 'http://gripsonresto-e001.netlify.app/',
+    tags: ['Automation', 'Node.js'],
+    category: 'Tool',
+  },
+  {
+    id: 7,
+    title: 'Chatti',
+    description:
+      'Real-time chat application built with MERN and Socket.io for instant communication between users.',
+    image: chatti,
+    link: 'https://chatti-csxs.onrender.com/',
+    tags: ['MERN', 'Socket.io'],
+    category: 'Web App',
+  },
+  {
+    id: 8,
+    title: 'TaskMe',
+    description:
+      'A task management app built with React and Node.js, allowing users to organize and track tasks efficiently.',
+    image: taskme,
+    link: 'https://taskme.onrender.com/',
+    tags: ['React', 'Node.js'],
+    category: 'Tool',
+  },
+  {
+    id: 9,
+    title: 'Jobb',
+    description:
+      'A MERN-based job portal that connects job seekers with employers through secure authentication and job listings.',
+    image: jobb,
+    link: 'https://jobb.onrender.com/',
+    tags: ['MERN', 'Auth'],
+    category: 'Web App',
+  },
+  {
+    id: 10,
+    title: 'Venture Vault',
+    description:
+      'A responsive web app for managing and showcasing startup ventures using modern web technologies.',
+    image: vv,
+    link: null,
+    tags: ['React', 'Design'],
+    category: 'Web App',
+  },
+  {
+    id: 11,
+    title: 'Slinq',
+    description:
+      'A web-based inventory management system for tracking stock, sales, and purchases efficiently.',
+    image: slinq,
+    link: 'https://slinq-wxgw.onrender.com/',
+    tags: ['Full Stack', 'Dashboard'],
+    category: 'Tool',
+  },
+  {
+    id: 12,
+    title: 'Titi',
+    description:
+      'An AI-powered academic assistant that helps students organize their semester automatically. Built with React, Expo, and Node.js.',
+    image: titi,
+    link: 'https://titi-web.onrender.com/',
+    tags: ['AI', 'React Native'],
+    category: 'AI/ML',
+  },
+];
+
+// Projects: a wheel with each project's favicon on its rim, half hidden behind the
+// display card. It turns on a timer, and can be grabbed and rotated by hand.
+const COUNT = projectData.length;
+const STEP = 360 / COUNT;
+const AUTO_MS = 4500;
+const SNAP_TAU = 120; // ms; time constant of the settle animation
+const DRAG_THRESHOLD = 6; // px before a press counts as a drag
+
+// The active favicon rests at 9 o'clock, facing the display screen (angles run clockwise from
+// 12 o'clock, so that is -90deg).
+const BASE = -90;
+
+const mod = (n, m) => ((n % m) + m) % m;
+const indexAt = (theta) => mod(Math.round((BASE - theta) / STEP), COUNT);
+
+// The site's own favicon, falling back to the project screenshot if it is missing.
+const faviconUrl = (link) => {
+  if (!link) return null;
+  try {
+    return new URL('/favicon.ico', link).href;
+  } catch {
+    return null;
+  }
+};
+
+const Badge = ({ project }) => {
+  const [failed, setFailed] = useState(false);
+  const url = faviconUrl(project.link);
+  if (!url || failed) {
+    return <img className="pw-badge__img pw-badge__img--shot" src={project.image} alt="" draggable="false" />;
+  }
+  return (
+    <img
+      className="pw-badge__img"
+      src={url}
+      alt=""
+      draggable="false"
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  );
+};
+
 const Projects = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [active, setActive] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [hold, setHold] = useState(false); // pointer or focus inside: pause the timer
+  const [inView, setInView] = useState(false);
 
-  const projectData = [
-    {
-      id: 1,
-      title: 'TSA Web Platform',
-      description:
-        'Enterprise-level web platform featuring advanced UI/UX design, real-time data visualization, and seamless user experience optimization.',
-      image: tsaWeb,
-      link: 'https://bespoke-choux-b0059d.netlify.app/',
-      tags: ['React', 'UI/UX'],
-      category: 'Web App',
-    },
-    {
-      id: 2,
-      title: 'Gaming Website',
-      description:
-        'Full-stack web application with sophisticated content management system and responsive design implementation.',
-      image: newImage,
-      link: 'https://quickstock-2r9a.onrender.com',
-      tags: ['Full Stack', 'CMS'],
-      category: 'Web App',
-    },
-    {
-      id: 3,
-      title: 'Restaurant Management',
-      description:
-        'Comprehensive restaurant management system with online ordering, inventory tracking, and customer relationship management.',
-      image: resto,
-      link: 'http://gripsonresto-e001.netlify.app/',
-      tags: ['React', 'Node.js'],
-      category: 'Web App',
-    },
-    {
-      id: 4,
-      title: 'Ultimate Football Experience',
-      description:
-        'Gaming system with interactive features, progress tracking, and multimedia content delivery.',
-      image: ufe,
-      link: 'https://dls-1.onrender.com/',
-      tags: ['JavaScript', 'Gaming'],
-      category: 'Web App',
-    },
-    {
-      id: 5,
-      title: 'AI Image Classifier',
-      description:
-        'Machine learning integrated web application with real-time image classification and advanced data processing capabilities.',
-      image: imageClassifier,
-      link: 'https://amber-katalin-58.tiiny.site/',
-      tags: ['AI/ML', 'Python'],
-      category: 'AI/ML',
-    },
-    {
-      id: 6,
-      title: 'Email Automation',
-      description:
-        'Professional email generation and automation tool with template management and advanced customization options.',
-      image: emailGenerator,
-      link: 'http://gripsonresto-e001.netlify.app/',
-      tags: ['Automation', 'Node.js'],
-      category: 'Tool',
-    },
-    {
-      id: 7,
-      title: 'Chatti',
-      description:
-        'Real-time chat application built with MERN and Socket.io for instant communication between users.',
-      image: chatti,
-      link: 'https://chatti-csxs.onrender.com/',
-      tags: ['MERN', 'Socket.io'],
-      category: 'Web App',
-    },
-    {
-      id: 8,
-      title: 'TaskMe',
-      description:
-        'A task management app built with React and Node.js, allowing users to organize and track tasks efficiently.',
-      image: taskme,
-      link: 'https://taskme.onrender.com/',
-      tags: ['React', 'Node.js'],
-      category: 'Tool',
-    },
-    {
-      id: 9,
-      title: 'Jobb',
-      description:
-        'A MERN-based job portal that connects job seekers with employers through secure authentication and job listings.',
-      image: jobb,
-      link: 'https://jobb.onrender.com/',
-      tags: ['MERN', 'Auth'],
-      category: 'Web App',
-    },
-    {
-      id: 10,
-      title: 'Venture Vault',
-      description:
-        'A responsive web app for managing and showcasing startup ventures using modern web technologies.',
-      image: vv,
-      link: null,
-      tags: ['React', 'Design'],
-      category: 'Web App',
-    },
-    {
-      id: 11,
-      title: 'Slinq',
-      description:
-        'A web-based inventory management system for tracking stock, sales, and purchases efficiently.',
-      image: slinq,
-      link: 'https://slinq-wxgw.onrender.com/',
-      tags: ['Full Stack', 'Dashboard'],
-      category: 'Tool',
-    },
-    {
-      id: 12,
-      title: 'Titi',
-      description:
-        'An AI-powered academic assistant that helps students organize their semester automatically. Built with React, Expo, and Node.js.',
-      image: titi,
-      link: 'https://titi-web.onrender.com/',
-      tags: ['AI', 'React Native'],
-      category: 'AI/ML',
-    },
-  ];
+  const stageRef = useRef(null);
+  const boxRef = useRef(null);
+  const wheelRef = useRef(null);
+  const theta = useRef(BASE);
+  const target = useRef(BASE);
+  const raf = useRef(0);
+  const lastFrame = useRef(0);
+  const drag = useRef(null);
+  const justDragged = useRef(false);
+  const reduceMotion = useRef(false);
 
-  const categories = ['All', 'Web App', 'Tool', 'AI/ML'];
+  useEffect(() => {
+    reduceMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
 
-  const filteredProjects =
-    activeFilter === 'All'
-      ? projectData
-      : projectData.filter((p) => p.category === activeFilter);
+  const apply = useCallback(() => {
+    wheelRef.current?.style.setProperty('--th', `${theta.current.toFixed(3)}deg`);
+  }, []);
 
-  const displayedProjects = filteredProjects.slice(0, visibleCount);
-  const hasMore = visibleCount < filteredProjects.length;
+  // Eases toward the target; interruptible, so a grab mid-spin takes over from where it is.
+  const tick = useCallback((now) => {
+    const dt = Math.min(64, now - lastFrame.current);
+    lastFrame.current = now;
+    const diff = target.current - theta.current;
+    if (Math.abs(diff) < 0.02) {
+      theta.current = target.current;
+      apply();
+      raf.current = 0;
+      return;
+    }
+    theta.current += diff * (1 - Math.exp(-dt / SNAP_TAU));
+    apply();
+    raf.current = requestAnimationFrame(tick);
+  }, [apply]);
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 6);
+  const animateTo = useCallback((t) => {
+    target.current = t;
+    setActive(indexAt(t));
+    if (reduceMotion.current) {
+      theta.current = t;
+      apply();
+      return;
+    }
+    if (!raf.current) {
+      lastFrame.current = performance.now();
+      raf.current = requestAnimationFrame(tick);
+    }
+  }, [apply, tick]);
+
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+
+  const next = useCallback(() => animateTo(target.current - STEP), [animateTo]);
+  const prev = useCallback(() => animateTo(target.current + STEP), [animateTo]);
+
+  const goTo = (i) => {
+    let diff = mod(i - indexAt(target.current), COUNT);
+    if (diff > COUNT / 2) diff -= COUNT;
+    if (diff !== 0) animateTo(target.current - diff * STEP);
   };
 
-  const handleFilterChange = (cat) => {
-    setActiveFilter(cat);
-    setVisibleCount(6);
+  // Automatic turn: only while the section is on screen, the tab is visible and nobody is
+  // touching it. Reduced motion leaves turning to the visitor.
+  useEffect(() => {
+    const node = stageRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.35 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (hold || dragging || !inView || reduceMotion.current) return undefined;
+    const id = window.setInterval(() => {
+      if (!document.hidden) next();
+    }, AUTO_MS);
+    return () => window.clearInterval(id);
+  }, [hold, dragging, inView, next, active]);
+
+  // ----- Drag to rotate -----
+  const angleOf = (e) => {
+    const rect = boxRef.current.getBoundingClientRect();
+    return (Math.atan2(e.clientY - (rect.top + rect.height / 2), e.clientX - (rect.left + rect.width / 2)) * 180) / Math.PI;
   };
+
+  const onPointerDown = (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    drag.current = {
+      id: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      last: angleOf(e),
+      lastT: performance.now(),
+      vel: 0,
+      moved: false,
+    };
+  };
+
+  const onPointerMove = (e) => {
+    const d = drag.current;
+    if (!d || d.id !== e.pointerId) return;
+    if (!d.moved) {
+      if (Math.hypot(e.clientX - d.startX, e.clientY - d.startY) < DRAG_THRESHOLD) return;
+      d.moved = true;
+      d.last = angleOf(e);
+      d.lastT = performance.now();
+      cancelAnimationFrame(raf.current);
+      raf.current = 0;
+      e.currentTarget.setPointerCapture(e.pointerId);
+      setDragging(true);
+      return;
+    }
+    const now = performance.now();
+    const angle = angleOf(e);
+    let delta = angle - d.last;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    d.vel = 0.8 * d.vel + 0.2 * (delta / Math.max(1, now - d.lastT));
+    d.last = angle;
+    d.lastT = now;
+    theta.current += delta;
+    target.current = theta.current;
+    apply();
+    setActive(indexAt(theta.current));
+  };
+
+  const endDrag = (e) => {
+    const d = drag.current;
+    if (!d || d.id !== e.pointerId) return;
+    drag.current = null;
+    if (!d.moved) return;
+    justDragged.current = true;
+    window.setTimeout(() => { justDragged.current = false; }, 0);
+    setDragging(false);
+    const throwBy = Math.max(-STEP * 1.5, Math.min(STEP * 1.5, d.vel * 180));
+    animateTo(BASE + Math.round((theta.current + throwBy - BASE) / STEP) * STEP);
+  };
+
+  const project = projectData[active];
 
   return (
-    <section id="portfolio" className="portfolio">
-      <div className="portfolio-container">
-        {/* Section Header */}
-        <div className="section-header">
-          <span className="section-tag">
-            <span className="tag-line"></span>
-            My Work
+    <section id="portfolio" className="pw">
+      <div className="pw__container">
+        <div className="ab-header">
+          <div className="ab-header__chips">
+            <span className="ab-chip">
+              <span className="ab-chip__dot" aria-hidden="true" />
+              My work
+            </span>
+          </div>
+          <h2 className="ab-title">Featured Projects</h2>
+          <p className="ab-sub">Spin the wheel or let it turn: every favicon is a project I built</p>
+          <span className="ab-meter" aria-hidden="true">
+            {Array.from({ length: 10 }, (_, i) => (
+              <span key={i} style={{ '--k': i }} />
+            ))}
           </span>
-          <h2 className="section-title">
-            Featured <span className="title-accent">Projects</span>
-          </h2>
-          <p className="section-subtitle">
-            A collection of projects that showcase my skills and passion
+        </div>
+      </div>
+
+      <div
+        ref={stageRef}
+        className={`pw-stage${dragging ? ' is-dragging' : ''}`}
+        onPointerEnter={(e) => e.pointerType === 'mouse' && setHold(true)}
+        onPointerLeave={(e) => e.pointerType === 'mouse' && setHold(false)}
+        onFocus={() => setHold(true)}
+        onBlur={() => setHold(false)}
+      >
+        <div
+          ref={boxRef}
+          className="pw-wheel-box"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
+          <div ref={wheelRef} className="pw-wheel" style={{ '--th': `${BASE}deg` }}>
+            {projectData.map((p, i) => (
+              <span key={`tick-${p.id}`} className="pw-tick" style={{ '--a': `${(i + 0.5) * STEP}deg` }} aria-hidden="true" />
+            ))}
+            {projectData.map((p, i) => (
+              <div key={p.id} className="pw-item" style={{ '--a': `${i * STEP}deg` }}>
+                <button
+                  type="button"
+                  className={`pw-badge${i === active ? ' is-active' : ''}`}
+                  aria-label={`Show ${p.title}`}
+                  aria-current={i === active ? 'true' : undefined}
+                  onClick={() => {
+                    if (!justDragged.current) goTo(i);
+                  }}
+                >
+                  <Badge project={p} />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="pw-card">
+          <p className="pw-sr" aria-live="polite">
+            Project {active + 1} of {COUNT}: {project.title}
           </p>
-        </div>
+          <div className="pw-panels">
+            {projectData.map((p, i) => (
+              <article
+                key={p.id}
+                className={`pw-panel${i === active ? ' is-active' : ''}`}
+                aria-hidden={i !== active}
+                inert={i !== active}
+              >
+                <div className="pw-panel__shot">
+                  <img src={p.image} alt={`${p.title} screenshot`} loading="lazy" draggable="false" />
+                  <span className="pw-panel__cat">{p.category}</span>
+                </div>
+                <div className="pw-panel__info">
+                  <div className="pw-panel__body">
+                    <h3>{p.title}</h3>
+                    <p>{p.description}</p>
+                    <ul className="pw-panel__tags">
+                      {p.tags.map((tag) => (
+                        <li key={tag}>{tag}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="pw-panel__foot">
+                    {p.link ? (
+                      <a className="pw-cta" href={p.link} target="_blank" rel="noopener noreferrer">
+                        View project
+                        <LuArrowUpRight aria-hidden="true" />
+                      </a>
+                    ) : (
+                      <span className="pw-cta pw-cta--off">
+                        <LuLock aria-hidden="true" />
+                        Private
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
 
-        {/* Filter Tabs */}
-        <div className="portfolio-filters">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              className={`filter-btn ${activeFilter === cat ? 'active' : ''}`}
-              onClick={() => handleFilterChange(cat)}
-            >
-              {cat === 'All' && (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="7" height="7" />
-                  <rect x="14" y="3" width="7" height="7" />
-                  <rect x="3" y="14" width="7" height="7" />
-                  <rect x="14" y="14" width="7" height="7" />
-                </svg>
-              )}
-              {cat === 'Web App' && (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="2" y1="12" x2="22" y2="12" />
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                </svg>
-              )}
-              {cat === 'Tool' && (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-                </svg>
-              )}
-              {cat === 'AI/ML' && (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93" />
-                  <path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93" />
-                  <path d="M15.25 9.93A4 4 0 0 1 17 14c0 1.95-1.4 3.58-3.25 3.93" />
-                  <path d="M8.75 9.93A4 4 0 0 0 7 14c0 1.95 1.4 3.58 3.25 3.93" />
-                  <circle cx="12" cy="22" r="2" />
-                  <path d="M12 18v2" />
-                </svg>
-              )}
-              {cat}
+          <div className="pw-controls">
+            <button type="button" className="pw-arrow" onClick={prev} aria-label="Previous project">
+              <LuChevronLeft aria-hidden="true" />
             </button>
-          ))}
-        </div>
-
-        {/* Project Count */}
-        <div className="portfolio-count">
-          <span>
-            Showing{' '}
-            <strong>{displayedProjects.length}</strong> of{' '}
-            <strong>{filteredProjects.length}</strong> projects
-          </span>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="portfolio-grid">
-          {displayedProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className="project-card"
-              style={{ animationDelay: `${index * 0.08}s` }}
-            >
-              {/* Image */}
-              <div className="project-image-wrapper">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="project-image"
-                  loading="lazy"
-                />
-                <div className="project-overlay">
-                  {project.link ? (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="overlay-btn"
-                      aria-label={`View ${project.title}`}
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                        <polyline points="15 3 21 3 21 9" />
-                        <line x1="10" y1="14" x2="21" y2="3" />
-                      </svg>
-                      Live Demo
-                    </a>
-                  ) : (
-                    <span className="overlay-badge">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                      </svg>
-                      Private
-                    </span>
-                  )}
-                </div>
-                {/* Category tag */}
-                <span className="project-category">{project.category}</span>
-              </div>
-
-              {/* Content */}
-              <div className="project-content">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-
-                {/* Tags */}
-                <div className="project-tags">
-                  {project.tags.map((tag, i) => (
-                    <span key={i} className="project-tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Footer */}
-                <div className="project-footer">
-                  {project.link ? (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-link"
-                    >
-                      <span>View Project</span>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                      </svg>
-                    </a>
-                  ) : (
-                    <span className="project-link disabled">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                      </svg>
-                      <span>Coming Soon</span>
-                    </span>
-                  )}
-                  <span className="project-id">#{String(project.id).padStart(2, '0')}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Load More */}
-        {hasMore && (
-          <div className="portfolio-load-more">
-            <button className="load-more-btn" onClick={handleLoadMore}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="7 13 12 18 17 13" />
-                <polyline points="7 6 12 11 17 6" />
-              </svg>
-              Load More Projects
+            <span className="pw-count" aria-hidden="true">
+              {String(active + 1).padStart(2, '0')} / {String(COUNT).padStart(2, '0')}
+            </span>
+            <button type="button" className="pw-arrow" onClick={next} aria-label="Next project">
+              <LuChevronRight aria-hidden="true" />
             </button>
           </div>
-        )}
+        </div>
       </div>
     </section>
   );
