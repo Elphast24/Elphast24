@@ -407,7 +407,7 @@ const About = () => {
         {/* What I bring: winding step layout */}
         <div className="ab-process">
           <div className="ab-process__head">
-            <h3 className="ab-process__title">How I work</h3>
+            <h3 className="ab-process__title">What I bring to the table</h3>
             <span className="ab-meter ab-meter--steps" aria-hidden="true">
               {Array.from({ length: 4 }, (_, i) => (
                 <span key={i} style={{ '--k': i }} />
@@ -430,6 +430,8 @@ const About = () => {
               {highlights.map((item, i) => (
                 <li className={`ab-step ab-step--${i % 2 === 0 ? 'a' : 'b'}`} key={item.title} style={{ '--n': i }}>
                   <div className="ab-step__card">
+                    <span className="ab-step__capsule" aria-hidden="true" />
+                    <span className="ab-step__tail" aria-hidden="true" />
                     <span className="ab-step__disc">{item.icon}</span>
                     <span className="ab-step__text">
                       <strong>{item.title}</strong>

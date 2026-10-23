@@ -23,36 +23,30 @@ const STATS = [
   { value: '5+', label: 'Happy clients' },
 ]
 
-// Tools from the Skills section and the projects, laid out in staggered rows (tiles per row).
-const TOOLS = [
-  { name: 'React', Icon: ReactIcon }, { name: 'JavaScript', Icon: JavaScript }, { name: 'TypeScript', Icon: TypeScript },
-  { name: 'Node.js', Icon: NodeJs }, { name: 'Express', Icon: ExpressJsLight },
-  { name: 'MongoDB', Icon: MongoDB }, { name: 'Python', Icon: Python }, { name: 'Redux', Icon: Redux },
-  { name: 'Firebase', Icon: Firebase },
-  { name: 'HTML5', Icon: HTML5 }, { name: 'CSS3', Icon: CSS3 }, { name: 'Tailwind CSS', Icon: TailwindCSS },
-  { name: 'Sass', Icon: Sass }, { name: 'Vite', Icon: ViteJS },
-  { name: 'Git', Icon: Git }, { name: 'GitHub', Icon: GitHubDark }, { name: 'Figma', Icon: Figma },
+// Languages and tools from the Skills section and the projects, grouped by what they are for.
+const TOOL_GROUPS = [
+  {
+    label: 'Frontend',
+    items: [
+      { name: 'React', Icon: ReactIcon }, { name: 'JavaScript', Icon: JavaScript }, { name: 'TypeScript', Icon: TypeScript },
+      { name: 'HTML5', Icon: HTML5 }, { name: 'CSS3', Icon: CSS3 }, { name: 'Tailwind CSS', Icon: TailwindCSS },
+      { name: 'Sass', Icon: Sass }, { name: 'Redux', Icon: Redux },
+    ],
+  },
+  {
+    label: 'Backend and data',
+    items: [
+      { name: 'Node.js', Icon: NodeJs }, { name: 'Express', Icon: ExpressJsLight }, { name: 'Python', Icon: Python },
+      { name: 'MongoDB', Icon: MongoDB }, { name: 'Firebase', Icon: Firebase },
+    ],
+  },
+  {
+    label: 'Tooling',
+    items: [
+      { name: 'Git', Icon: Git }, { name: 'GitHub', Icon: GitHubDark }, { name: 'Figma', Icon: Figma }, { name: 'Vite', Icon: ViteJS },
+    ],
+  },
 ]
-const TOOL_ROWS = [5, 4, 5, 3]
-const TOOL_LAYOUT = (() => {
-  let index = 0
-  return TOOL_ROWS.flatMap((count, row) =>
-    Array.from({ length: count }, (_, col) => {
-      const i = index++
-      const jitter = (k) => Math.sin(i * k) * 6
-      return {
-        ...TOOLS[i],
-        x: (col + (5 - count) / 2) * 20 + 10,
-        y: row * 25 + 12,
-        jx: jitter(12.9898),
-        jy: jitter(78.233),
-        tilt: Math.sin(i * 4.1414) * 7,
-        delay: -((i * 0.83) % 5),
-        dur: 4.2 + (i % 4) * 0.7,
-      }
-    }),
-  )
-})()
 
 const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/Elphast24', Icon: FaGithub, external: true },
@@ -69,20 +63,24 @@ function HeroExtras({ stage }) {
     <div className={`hero-ui${live ? ' is-live' : ''}`} inert={!live}>
       <h1 className="hero-ui__title">Samuel Bannor Annor, full-stack developer and designer</h1>
 
-      <ul className="hero-ui__tools" style={{ '--i': 0 }} aria-label="Tools I use">
-        {TOOL_LAYOUT.map(({ name, Icon, x, y, jx, jy, tilt, delay, dur }) => (
-          <li
-            key={name}
-            className="hero-ui__tool"
-            style={{ '--x': `${x}%`, '--y': `${y}%`, '--jx': `${jx}px`, '--jy': `${jy}px`, '--tilt': `${tilt}deg`, '--delay': `${delay}s`, '--dur': `${dur}s` }}
-          >
-            <span className="hero-ui__tool-tile" data-name={name}>
-              <Icon size={26} aria-hidden="true" />
-              <span className="hero-ui__sr">{name}</span>
-            </span>
-          </li>
+      <section className="hero-ui__tools" style={{ '--i': 0 }} aria-labelledby="hero-tools-title">
+        <h2 id="hero-tools-title" className="hero-ui__tools-title">Languages and tools</h2>
+        {TOOL_GROUPS.map((group) => (
+          <div key={group.label} className="hero-ui__tool-group">
+            <h3>{group.label}</h3>
+            <ul>
+              {group.items.map(({ name, Icon }) => (
+                <li key={name} className="hero-ui__tool">
+                  <span className="hero-ui__tool-tile" data-name={name}>
+                    <Icon size={24} aria-hidden="true" />
+                    <span className="hero-ui__sr">{name}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </ul>
+      </section>
 
       <article className="hero-ui__building" style={{ '--i': 1 }}>
         <header>

@@ -1,5 +1,5 @@
 /* Footer: a deep violet shell with rounded top corners, in the same system as the sections above
-   (violet gradient, Inter, circle icons, pill buttons). */
+   (solid violet, Inter, circle icons, pill buttons). */
 .footer {
   /* Matches the section above, so the shell's rounded top corners read against it. */
   background: #f7f5ff;
@@ -10,9 +10,7 @@
   --f-text: rgba(255, 255, 255, 0.78);
   --f-line: rgba(255, 255, 255, 0.12);
   --f-out: cubic-bezier(0.23, 1, 0.32, 1);
-  background:
-    radial-gradient(60rem 24rem at 85% -10%, rgba(122, 60, 255, 0.45), transparent 60%),
-    #1a0766;
+  background: #1a0766;
   border-radius: 40px 40px 0 0;
   color: #fff;
   font-family: 'Inter', sans-serif;
@@ -291,7 +289,7 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: linear-gradient(145deg, #5a2bff, #26018a);
+  background: #5a2bff;
   box-shadow: 0 10px 24px rgba(38, 1, 138, 0.35), 0 0 0 3px #fff;
   color: #fff;
   cursor: pointer;

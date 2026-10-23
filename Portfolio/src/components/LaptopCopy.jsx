@@ -108,6 +108,9 @@ function LaptopCopy({ stage }) {
             </h2>
           </div>
           <div className="laptop-copy laptop-copy--right">
+            <span className="laptop-copy__meta" aria-hidden="true">
+              <b>{String(index + 1).padStart(2, '0')}</b> / {String(COPY_PAIRS.length).padStart(2, '0')}
+            </span>
             <span className="laptop-copy__rule" aria-hidden="true" />
             <p
               ref={(element) => {
@@ -118,6 +121,11 @@ function LaptopCopy({ stage }) {
             >
               {pair.line}
             </p>
+            <ul className="laptop-copy__tags">
+              {pair.tags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
           </div>
         </div>
       ))}

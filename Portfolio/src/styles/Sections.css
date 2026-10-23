@@ -4,10 +4,10 @@
 .about--alt {
   --ab-ink: #1a1a2e;
   --ab-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ab-tab: linear-gradient(145deg, #5a2bff, #26018a);
+  --ab-tab: #5a2bff;
 }
 
-/* ===== Facts: white cards with a gradient tab and a pointer (reference 1) ===== */
+/* ===== Facts: white cards with a solid tab and a pointer (reference 1) ===== */
 .ab-facts {
   display: grid;
   gap: 1.1rem;
@@ -172,7 +172,8 @@
 .ab-step:nth-child(3) { --tone: var(--t2); }
 .ab-step:nth-child(4) { --tone: var(--t3); }
 
-/* Short bar: about half the stage, rounded end to end, with a tail toward its ring. */
+/* Short bar: about half the stage, rounded end to end. The coloured capsule and its tail are
+   separate layers so the scroll animation can pop the disc first and then grow the capsule. */
 .ab-step__card {
   position: absolute;
   top: calc(var(--y) - 42 * var(--u));
@@ -182,20 +183,24 @@
   align-items: center;
   gap: calc(12 * var(--u));
   border-radius: calc(42 * var(--u));
-  background: var(--tone);
   color: #fff;
   filter: drop-shadow(0 calc(10 * var(--u)) calc(14 * var(--u)) rgba(38, 1, 138, 0.22));
   transition: transform 0.25s var(--ab-out);
 }
 
-.ab-step__card::after {
-  content: '';
+.ab-step__capsule {
   position: absolute;
-  top: 50%;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--tone);
+}
+
+.ab-step__tail {
+  position: absolute;
+  top: calc(50% - 13 * var(--u));
   width: calc(16 * var(--u));
   height: calc(26 * var(--u));
   background: var(--tone);
-  transform: translateY(-50%);
 }
 
 .ab-step--a .ab-step__card {
@@ -204,7 +209,7 @@
   padding: 0 calc(8 * var(--u)) 0 calc(28 * var(--u));
 }
 
-.ab-step--a .ab-step__card::after {
+.ab-step--a .ab-step__tail {
   right: calc(-12 * var(--u));
   clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
@@ -214,12 +219,14 @@
   padding: 0 calc(28 * var(--u)) 0 calc(8 * var(--u));
 }
 
-.ab-step--b .ab-step__card::after {
+.ab-step--b .ab-step__tail {
   left: calc(-12 * var(--u));
   clip-path: polygon(100% 0, 0 50%, 100% 100%);
 }
 
 .ab-step__disc {
+  position: relative;
+  z-index: 1;
   display: grid;
   flex: none;
   place-items: center;
@@ -237,6 +244,8 @@
 }
 
 .ab-step__text {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap: calc(3 * var(--u));
   min-width: 0;
@@ -351,7 +360,7 @@
     justify-self: end;
   }
 
-  .ab-step__card::after {
+  .ab-step__tail {
     display: none;
   }
 
@@ -501,7 +510,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(90deg, #5a2bff, #26018a);
+  background: #5a2bff;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.45s var(--ab-out);
@@ -524,12 +533,12 @@
 
 /* ===== Section shell: one violet system for the header, photo, card and links ===== */
 .about--alt {
-  --ab-bg: #f7f5ff;
+  --ab-bg: #ffffff;
   background: var(--ab-bg);
 }
 
 .about--alt::before {
-  background: linear-gradient(90deg, transparent, rgba(90, 43, 255, 0.25), transparent);
+  background: rgba(90, 43, 255, 0.25);
 }
 
 .ab-header {
@@ -566,8 +575,8 @@
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 50%;
-  background: radial-gradient(circle, #5a2bff 0 28%, #fff 32% 52%, transparent 56%);
-  box-shadow: inset 0 0 0 2px #5a2bff;
+  background: #5a2bff;
+  box-shadow: inset 0 0 0 2.5px #fff, 0 0 0 2px #5a2bff;
 }
 
 .ab-chip--ghost {
@@ -602,7 +611,7 @@
 .ab-meter > span {
   height: 6px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #5a2bff, #26018a);
+  background: #5a2bff;
   opacity: calc(1 - var(--k) * 0.07);
 }
 
@@ -665,7 +674,7 @@
 .about--alt .role-line {
   width: 28px;
   height: 6px;
-  background: linear-gradient(90deg, #5a2bff, #26018a);
+  background: #5a2bff;
 }
 
 .about--alt .about-text p {
@@ -702,7 +711,7 @@
 
 .about--alt .social-btn:hover {
   color: #fff;
-  background: linear-gradient(145deg, #5a2bff, #26018a);
+  background: #5a2bff;
   box-shadow: 0 10px 22px rgba(90, 43, 255, 0.32);
 }
 
@@ -758,18 +767,17 @@
   transition: transform 0.6s var(--ab-out);
 }
 
-/* Caption panel: the photo dissolves into a pale frosted ground so the text stays legible. */
+/* Caption panel: a solid pale frosted block over the foot of the photo keeps the text legible. */
 .ab-profile__panel {
   position: absolute;
   inset: auto 0 0 0;
   display: grid;
   gap: 0.6rem;
-  padding: 3.5rem 1.25rem 1.1rem;
-  background: linear-gradient(to top, rgba(247, 245, 255, 0.97) 0%, rgba(247, 245, 255, 0.92) 55%, rgba(247, 245, 255, 0) 100%);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  -webkit-mask-image: linear-gradient(to top, #000 0 72%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 0 72%, transparent 100%);
+  padding: 1.25rem 1.25rem 1.1rem;
+  border-radius: 24px 24px 0 0;
+  background: rgba(247, 245, 255, 0.94);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .ab-profile__name {
@@ -839,7 +847,7 @@
   width: 136px;
   height: 48px;
   border-radius: 999px;
-  background: linear-gradient(145deg, #5a2bff, #26018a);
+  background: #5a2bff;
   font: 600 0.95rem/1 'Inter', sans-serif;
   color: #fff;
   text-decoration: none;

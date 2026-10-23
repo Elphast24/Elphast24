@@ -16,7 +16,7 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(90, 43, 255, 0.25), transparent);
+  background: rgba(90, 43, 255, 0.25);
 }
 
 .sx__container {
@@ -62,7 +62,7 @@
 }
 
 .sx-filter.is-active {
-  background: linear-gradient(145deg, #5a2bff, #26018a);
+  background: #5a2bff;
   box-shadow: 0 8px 18px rgba(90, 43, 255, 0.3);
   color: #fff;
 }
@@ -178,7 +178,7 @@
   width: 54px;
   height: 8px;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(38, 1, 138, 0.16), transparent);
+  background: rgba(38, 1, 138, 0.1);
   transform: translateX(-50%);
 }
 

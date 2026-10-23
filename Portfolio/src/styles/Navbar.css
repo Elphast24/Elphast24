@@ -177,7 +177,7 @@
   bottom: 1px;
   height: 2px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #26018a, #ff00d4);
+  background: #5a2bff;
   transform: scaleX(var(--progress, 0));
   transform-origin: left;
   pointer-events: none;

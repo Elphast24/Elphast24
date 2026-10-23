@@ -71,7 +71,7 @@
 }
 
 .tracker__step.is-active .tracker__node {
-  background: linear-gradient(145deg, #26018a, #ff00d4);
+  background: #5a2bff;
   box-shadow: 0 4px 12px rgba(122, 60, 255, 0.4);
   color: #fff;
 }
@@ -97,7 +97,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(90deg, #26018a, #ff00d4);
+  background: #5a2bff;
   transform: scaleX(clamp(0, calc(var(--tracker-p, 0) * 2 - var(--seg)), 1));
   transform-origin: left;
 }
