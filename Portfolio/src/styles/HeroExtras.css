@@ -41,7 +41,8 @@
 .hero-ui__kicker,
 .hero-ui__actions,
 .hero-ui__proof,
-.hero-ui__featured {
+.hero-ui__featured,
+.hero-ui__clients {
   transition: opacity 0.25s ease-out;
 }
 
@@ -50,7 +51,8 @@
 .hero-ui:not(.is-live) .hero-ui__kicker,
 .hero-ui:not(.is-live) .hero-ui__actions,
 .hero-ui:not(.is-live) .hero-ui__proof,
-.hero-ui:not(.is-live) .hero-ui__featured {
+.hero-ui:not(.is-live) .hero-ui__featured,
+.hero-ui:not(.is-live) .hero-ui__clients {
   opacity: 0;
 }
 
@@ -59,7 +61,8 @@
 .hero-ui.is-live .hero-ui__kicker,
 .hero-ui.is-live .hero-ui__actions,
 .hero-ui.is-live .hero-ui__proof,
-.hero-ui.is-live .hero-ui__featured {
+.hero-ui.is-live .hero-ui__featured,
+.hero-ui.is-live .hero-ui__clients {
   animation: hero-ui-in 0.8s var(--ui-out) backwards;
   animation-delay: calc(var(--i, 0) * 90ms + 350ms);
 }
@@ -197,19 +200,10 @@
   padding: 1rem 1.1rem;
   border-radius: 18px;
   background: var(--ui-glass);
-  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px var(--ui-line), var(--ui-shadow);
+  box-shadow: var(--ui-shadow);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   overflow: hidden;
-}
-
-/* A single accent: the brand colour as a hairline across the top of the card. */
-.hero-ui__building::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 3px;
-  background: #5a2bff;
 }
 
 .hero-ui__building header {
@@ -542,7 +536,8 @@
   .hero-ui__building,
   .hero-ui__kicker,
   .hero-ui__proof,
-  .hero-ui__featured {
+  .hero-ui__featured,
+  .hero-ui__clients {
     display: none;
   }
 
@@ -571,7 +566,8 @@
   .hero-ui.is-live .hero-ui__kicker,
   .hero-ui.is-live .hero-ui__actions,
   .hero-ui.is-live .hero-ui__proof,
-  .hero-ui.is-live .hero-ui__featured {
+  .hero-ui.is-live .hero-ui__featured,
+  .hero-ui.is-live .hero-ui__clients {
     animation: none;
   }
 
@@ -579,5 +575,69 @@
   .hero-ui__project.is-active {
     transition-duration: 0.01ms;
     transition-delay: 0s;
+  }
+}
+
+/* ===== Organisations I have worked with, centred under the laptop and the step pill =====
+   The row is wider than its window and slides sideways as you scroll through the hero. */
+.hero-ui__clients {
+  --clients-w: clamp(15rem, 28vw, 24rem);
+  position: absolute;
+  left: 50%;
+  bottom: var(--hero-pad-b);
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  width: var(--clients-w);
+  margin: 0;
+}
+
+.hero-ui__clients-label {
+  margin: 0;
+  font: 500 0.72rem/1 'JetBrains Mono', monospace;
+  letter-spacing: 0.5px;
+  color: #64648c;
+}
+
+.hero-ui__clients-view {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-ui__clients-track {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  translate: calc((100% - var(--clients-w)) * var(--tracker-p, 0) * -1) 0;
+}
+
+.hero-ui__clients li {
+  flex: none;
+  height: 3rem;
+}
+
+.hero-ui__clients img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 9rem;
+  object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ui__clients-track {
+    translate: none;
+  }
+}
+
+/* Only where there is clear space between the left column and the featured card. */
+@media (max-width: 1180px), (max-height: 640px) {
+  .hero-ui__clients {
+    display: none;
   }
 }

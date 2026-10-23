@@ -1,5 +1,5 @@
-/* Parallax layers for the scroll motion (see motion/scrollMotion.js). Each section gets one soft
-   violet orb behind its content; the script drifts it by animating --orb-y. */
+/* Parallax layers for the scroll motion (see motion/scrollMotion.js). Each section gets a pale,
+   curvy ribbon in one corner behind its content; the script drifts it by animating --orb-y. */
 #about,
 #skills,
 #portfolio,
@@ -14,32 +14,40 @@
   content: '';
   position: absolute;
   z-index: -1;
-  width: clamp(24rem, 46vw, 42rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: rgba(122, 60, 255, 0.07);
+  width: clamp(18rem, 30vw, 28rem);
+  aspect-ratio: 600 / 640;
+  background: url('../assets/img/shapes/squiggle.svg') center / 100% 100% no-repeat;
   pointer-events: none;
-  transform: translateY(var(--orb-y, 0px));
+  transform: translateY(var(--orb-y, 0px)) scale(var(--fx, 1), var(--fy, 1));
 }
 
+/* One long line per section: it runs in from outside the section, loops, and runs out again.
+   Both ends of the drawing sit on its box edges, and each box overhangs two edges of the section
+   by 4rem or more, so the ends are always out of view (the section clips them) and the small
+   scroll drift never reveals them. The drawing enters at the top and leaves at the right;
+   flipping it moves those to other edges. */
 #about::after {
-  top: -6rem;
-  right: -14rem;
+  top: -5rem;
+  right: -4rem;
 }
 
 #skills::after {
-  top: 22%;
-  left: -16rem;
+  --fx: -1;
+  top: -5rem;
+  left: -4rem;
 }
 
 #portfolio::after {
-  bottom: -10rem;
-  right: -12rem;
+  --fy: -1;
+  bottom: -5rem;
+  right: -4rem;
 }
 
 #contact::after {
-  top: -4rem;
-  left: -12rem;
+  --fx: -1;
+  --fy: -1;
+  bottom: -5rem;
+  left: -4rem;
 }
 
 /* ===== Section transitions =====

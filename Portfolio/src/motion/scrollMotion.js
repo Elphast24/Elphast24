@@ -68,13 +68,13 @@ const header = (section) => {
   });
 };
 
-// A soft violet disc behind each section (see Motion.css) drifts against the scroll.
+// A curvy ribbon behind each section (see Motion.css) drifts against the scroll.
 const orb = (section) => {
   gsap.fromTo(
     section,
-    { '--orb-y': '140px' },
+    { '--orb-y': '36px' },
     {
-      '--orb-y': '-140px',
+      '--orb-y': '-36px',
       ease: 'none',
       scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true },
     },

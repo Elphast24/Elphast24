@@ -2,48 +2,57 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { LuArrowUpRight, LuChevronLeft, LuChevronRight, LuLock } from 'react-icons/lu';
 import '../styles/Sections.css';
 import '../styles/Projects.css';
-import tsaWeb from '../assets/img/works/tsaWeb.png';
-import newImage from '../assets/img/new.png';
-import resto from '../assets/img/resto.png';
+import omniForm from '../assets/img/works/OmniForm.png';
+import sopSite from '../assets/img/works/sop.png';
+import tplusOne from '../assets/img/works/tplus1.png';
 import ufe from '../assets/img/works/ufe.png';
 import imageClassifier from '../assets/img/works/ImageClassifier.png';
 import emailGenerator from '../assets/img/works/EmailGenerator.png';
 import chatti from '../assets/img/works/Chatti.png';
-import jobb from '../assets/img/works/jobb.png';
-import taskme from '../assets/img/works/taskme.png';
 import slinq from '../assets/img/works/slinq.png';
 import vv from '../assets/img/works/vv.png';
 import titi from '../assets/img/works/titi.png';
+import omniFormIcon from '../assets/img/project-favicon/logo-orange-vector.svg';
+import tplusOneIcon from '../assets/img/project-favicon/TPLUS-LOGO.svg';
+import chattiIcon from '../assets/img/project-favicon/chatti.png';
+import titiIcon from '../assets/img/project-favicon/titi.png';
+import sopIcon from '../assets/img/clients/sopt.png';
+import pucIcon from '../assets/img/clients/PUC-Logo.png';
 
 const projectData = [
   {
-    id: 1,
-    title: 'TSA Web Platform',
+    id: 13,
+    title: 'OmniForm AI',
     description:
-      'Enterprise-level web platform featuring advanced UI/UX design, real-time data visualization, and seamless user experience optimization.',
-    image: tsaWeb,
-    link: 'https://bespoke-choux-b0059d.netlify.app/',
-    tags: ['React', 'UI/UX'],
-    category: 'Web App',
+      'Turns static documents into interactive Google Forms with Gemini, with Google sign-in, drafts and a live preview.',
+    image: omniForm,
+    favicon: omniFormIcon,
+    link: null,
+    linkLabel: 'In progress',
+    tags: ['AI', 'Google APIs'],
+    category: 'AI/ML',
   },
   {
-    id: 2,
-    title: 'Gaming Website',
+    id: 14,
+    title: 'SOP Global Advisory',
     description:
-      'Full-stack web application with sophisticated content management system and responsive design implementation.',
-    image: newImage,
-    link: 'https://quickstock-2r9a.onrender.com',
-    tags: ['Full Stack', 'CMS'],
-    category: 'Web App',
+      'Corporate website for a professional services firm covering audit, tax, advisory, career development and human capital.',
+    image: sopSite,
+    favicon: sopIcon,
+    link: 'https://sopglobaladvisory.com',
+    tags: ['Company site', 'Responsive'],
+    category: 'Website',
   },
   {
-    id: 3,
-    title: 'Restaurant Management',
+    id: 15,
+    title: 'T Plus One',
     description:
-      'Comprehensive restaurant management system with online ordering, inventory tracking, and customer relationship management.',
-    image: resto,
-    link: 'http://gripsonresto-e001.netlify.app/',
-    tags: ['React', 'Node.js'],
+      'Company portal with work-email sign-in, registration and email verification, and user roles managed by an admin.',
+    image: tplusOne,
+    favicon: tplusOneIcon,
+    link: null,
+    linkLabel: 'Private',
+    tags: ['Auth', 'Portal'],
     category: 'Web App',
   },
   {
@@ -72,7 +81,9 @@ const projectData = [
     description:
       'Professional email generation and automation tool with template management and advanced customization options.',
     image: emailGenerator,
-    link: 'http://gripsonresto-e001.netlify.app/',
+    favicon: pucIcon,
+    link: null,
+    linkLabel: 'Private',
     tags: ['Automation', 'Node.js'],
     category: 'Tool',
   },
@@ -82,28 +93,9 @@ const projectData = [
     description:
       'Real-time chat application built with MERN and Socket.io for instant communication between users.',
     image: chatti,
+    favicon: chattiIcon,
     link: 'https://chatti-csxs.onrender.com/',
     tags: ['MERN', 'Socket.io'],
-    category: 'Web App',
-  },
-  {
-    id: 8,
-    title: 'TaskMe',
-    description:
-      'A task management app built with React and Node.js, allowing users to organize and track tasks efficiently.',
-    image: taskme,
-    link: 'https://taskme.onrender.com/',
-    tags: ['React', 'Node.js'],
-    category: 'Tool',
-  },
-  {
-    id: 9,
-    title: 'Jobb',
-    description:
-      'A MERN-based job portal that connects job seekers with employers through secure authentication and job listings.',
-    image: jobb,
-    link: 'https://jobb.onrender.com/',
-    tags: ['MERN', 'Auth'],
     category: 'Web App',
   },
   {
@@ -122,7 +114,8 @@ const projectData = [
     description:
       'A web-based inventory management system for tracking stock, sales, and purchases efficiently.',
     image: slinq,
-    link: 'https://slinq-wxgw.onrender.com/',
+    link: null,
+    linkLabel: 'Private',
     tags: ['Full Stack', 'Dashboard'],
     category: 'Tool',
   },
@@ -132,7 +125,8 @@ const projectData = [
     description:
       'An AI-powered academic assistant that helps students organize their semester automatically. Built with React, Expo, and Node.js.',
     image: titi,
-    link: 'https://titi-web.onrender.com/',
+    favicon: titiIcon,
+    link: 'https://titi-five-beta.vercel.app/',
     tags: ['AI', 'React Native'],
     category: 'AI/ML',
   },
@@ -153,7 +147,7 @@ const BASE = -90;
 const mod = (n, m) => ((n % m) + m) % m;
 const indexAt = (theta) => mod(Math.round((BASE - theta) / STEP), COUNT);
 
-// The site's own favicon, falling back to the project screenshot if it is missing.
+// A supplied favicon file first, then the site's own favicon, then the project screenshot.
 const faviconUrl = (link) => {
   if (!link) return null;
   try {
@@ -165,7 +159,7 @@ const faviconUrl = (link) => {
 
 const Badge = ({ project }) => {
   const [failed, setFailed] = useState(false);
-  const url = faviconUrl(project.link);
+  const url = project.favicon ?? faviconUrl(project.link);
   if (!url || failed) {
     return <img className="pw-badge__img pw-badge__img--shot" src={project.image} alt="" draggable="false" />;
   }
@@ -422,7 +416,7 @@ const Projects = () => {
                     ) : (
                       <span className="pw-cta pw-cta--off">
                         <LuLock aria-hidden="true" />
-                        Private
+                        {p.linkLabel ?? 'Private'}
                       </span>
                     )}
                   </div>

@@ -5,16 +5,27 @@ import {
   HTML5, CSS3, JavaScript, TypeScript, React as ReactIcon, NodeJs, ExpressJsLight, MongoDB, Python,
   Git, GitHubDark, Redux, TailwindCSS, Sass, Figma, Firebase, ViteJS,
 } from 'developer-icons'
-import tsaWeb from '../assets/img/works/tsaWeb.png'
+import sopSite from '../assets/img/works/sop.png'
 import imageClassifier from '../assets/img/works/ImageClassifier.png'
-import slinq from '../assets/img/works/slinq.png'
+import titi from '../assets/img/works/titi.png'
+import adongo from '../assets/img/clients/adongo-foundation.png'
+import adroit360 from '../assets/img/clients/adroit360.png'
+import conversibl from '../assets/img/clients/CON-green.png'
+import elphast from '../assets/img/clients/elphast.png'
+import helperHelp from '../assets/img/clients/helper-help.png'
+import oneSky from '../assets/img/clients/one-sky.png'
+import palm from '../assets/img/clients/PUC-Logo.png'
+import sopt from '../assets/img/clients/sopt.png'
+import spydarcorp from '../assets/img/clients/spydarcorp.png'
+import starise from '../assets/img/clients/starise.png'
+import saints from '../assets/img/clients/the-saints-assembly.png'
 import '../styles/HeroExtras.css'
 
 // One featured project per stage (Design, Build, Ship), from the Projects section.
 const FEATURED = [
-  { label: 'Featured design', title: 'TSA Web Platform', tags: ['React', 'UI/UX'], image: tsaWeb, href: 'https://bespoke-choux-b0059d.netlify.app/' },
+  { label: 'Featured design', title: 'SOP Global Advisory', tags: ['Website', 'Responsive'], image: sopSite, href: 'https://sopglobaladvisory.com' },
   { label: 'Featured build', title: 'AI Image Classifier', tags: ['AI/ML', 'Python'], image: imageClassifier, href: 'https://amber-katalin-58.tiiny.site/' },
-  { label: 'Featured launch', title: 'Slinq', tags: ['Full Stack', 'Dashboard'], image: slinq, href: 'https://slinq-wxgw.onrender.com/' },
+  { label: 'Featured launch', title: 'Titi', tags: ['AI', 'React Native'], image: titi, href: 'https://titi-five-beta.vercel.app/' },
 ]
 
 const STATS = [
@@ -46,6 +57,22 @@ const TOOL_GROUPS = [
       { name: 'Git', Icon: Git }, { name: 'GitHub', Icon: GitHubDark }, { name: 'Figma', Icon: Figma }, { name: 'Vite', Icon: ViteJS },
     ],
   },
+]
+
+// Organisations I have worked with. The files are downsized copies (96px tall) of the originals
+// in src/assets/img/org/, which are too large to ship to the browser.
+const CLIENTS = [
+  { name: 'Elphast', logo: elphast },
+  { name: 'Conversibl', logo: conversibl },
+  { name: 'Adroit360', logo: adroit360 },
+  { name: 'Spydarcorp', logo: spydarcorp },
+  { name: 'One Sky', logo: oneSky },
+  { name: 'Palm University College', logo: palm },
+  { name: 'Helper & Help', logo: helperHelp },
+  { name: 'Adongo Foundation', logo: adongo },
+  { name: 'The Saints Assembly', logo: saints },
+  { name: 'Starise', logo: starise },
+  { name: 'SOPT', logo: sopt },
 ]
 
 const SOCIALS = [
@@ -167,6 +194,19 @@ function HeroExtras({ stage }) {
           </a>
         ))}
       </div>
+
+      <section className="hero-ui__clients" style={{ '--i': 6 }} aria-label="Organisations I have worked with">
+        <p className="hero-ui__clients-label">Worked with</p>
+        <div className="hero-ui__clients-view">
+          <ul className="hero-ui__clients-track">
+            {CLIENTS.map((client) => (
+              <li key={client.name}>
+                <img src={client.logo} alt={client.name} loading="lazy" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </div>
   )
 }

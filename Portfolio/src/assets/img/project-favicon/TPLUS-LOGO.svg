@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Icon Mark (Kanban Grid forming T+) - Full Canvas -->
+  <g transform="translate(2, 2)">
+    <!-- Top Bar of 'T' / Board Columns -->
+    <rect x="0" y="0" width="28" height="28" rx="6" fill="#00A896" />
+    <rect x="34" y="0" width="28" height="28" rx="6" fill="#3B82F6" />
+    <rect x="68" y="0" width="28" height="28" rx="6" fill="#10B981" />
+    
+    <!-- Vertical Stem of 'T' / Task Flow -->
+    <rect x="34" y="34" width="28" height="28" rx="6" fill="#3B82F6" opacity="0.85" />
+    <rect x="34" y="68" width="28" height="28" rx="6" fill="#3B82F6" opacity="0.55" />
+    
+    <!-- Plus Accent / Collaboration Node -->
+    <rect x="68" y="34" width="28" height="28" rx="6" fill="#F59E0B" />
+  </g>
+</svg>

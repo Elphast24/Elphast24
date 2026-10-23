@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { LuMail } from 'react-icons/lu';
+import avatar from '../assets/img/avatar.png';
 import '../styles/Navbar.css';
 
 const EMAIL = 'samuelbannor44@gmail.com';
@@ -61,7 +62,7 @@ const Navbar = () => {
       aria-label="Primary"
     >
       <a href="#home" className="pill-logo" aria-label="Samuel Bannor Annor, home">
-        S
+        <img src={avatar} alt="" width="44" height="44" />
       </a>
 
       <ul className="pill-links">
