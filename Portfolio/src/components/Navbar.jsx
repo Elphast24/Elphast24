@@ -1,109 +1,91 @@
-import React, { useState, useEffect } from 'react';
-import sammy from '../assets/img/sammy.png'
+import React, { useState, useEffect, useRef } from 'react';
+import { LuMail } from 'react-icons/lu';
+import avatar from '../assets/img/avatar.png';
 import '../styles/Navbar.css';
 
+const EMAIL = 'samuelbannor44@gmail.com';
+
+const navLinks = [
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'portfolio', label: 'Portfolio' },
+  { id: 'contact', label: 'Contact' },
+];
+
+// Checked bottom-up: the last section whose top has passed the nav line wins.
+const sectionOrder = [...navLinks].reverse().map((link) => link.id);
+
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const navRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
       setIsScrolled(window.scrollY > 50);
 
-      const sections = ['contact', 'portfolio', 'about', 'home'];
-      for (const section of sections) {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      navRef.current?.style.setProperty('--progress', progress.toFixed(4));
+
+      for (const section of sectionOrder) {
         const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
-            setActiveSection(section);
-            break;
-          }
+        if (element && element.getBoundingClientRect().top <= 150) {
+          setActiveSection(section);
+          return;
         }
       }
+      setActiveSection('home');
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isMenuOpen]);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
-
-  const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#portfolio', label: 'Portfolio' },
-    { href: '#contact', label: 'Contact' },
-  ];
-
   return (
-    <>
-      <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="navbar-inner">
-          {/* Logo */}
-          <a href="#home" className="logo" onClick={closeMenu}>
-            <span className="logo-name">
-              <img src={sammy} width={250}/>
-            </span>
-            {/* <span className="logo-accent"></span> */}
-          </a>
+    <nav
+      ref={navRef}
+      className={`pill-nav ${isScrolled ? 'scrolled' : ''}`}
+      aria-label="Primary"
+    >
+      <a href="#home" className="pill-logo" aria-label="Samuel Bannor Annor, home">
+        <img src={avatar} alt="" width="44" height="44" />
+      </a>
 
-          {/* Desktop + Mobile Nav */}
-          <nav>
-            <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-              {navLinks.map((link, i) => (
-                <li
-                  key={link.label}
-                  className="nav-item"
-                  style={{ animationDelay: `${i * 0.08 + 0.15}s` }}
-                >
-                  <a
-                    href={link.href}
-                    className={`nav-link ${activeSection === link.href.slice(1) ? 'active' : ''}`}
-                    onClick={closeMenu}
-                  >
-                    <span className="nav-index">0{i + 1}</span>
-                    <span className="nav-label">{link.label}</span>
-                  </a>
-                </li>
-              ))}
-              <li className="nav-item nav-cta-item" style={{ animationDelay: '0.5s' }}>
-                <a href="#contact" className="nav-cta" onClick={closeMenu}>
-                  Let's Talk
-                  {/* <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg> */}
-                </a>
-              </li>
-            </ul>
-          </nav>
+      <ul className="pill-links">
+        {navLinks.map((link) => (
+          <li key={link.id} className={`pill-item pill-item-${link.id}`}>
+            <a
+              href={`#${link.id}`}
+              className={`pill-link ${activeSection === link.id ? 'active' : ''}`}
+              aria-current={activeSection === link.id ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
 
-          {/* Mobile Toggle */}
-          <button
-            className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}
-            onClick={toggleMenu}
-            aria-label="Toggle navigation"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-      </header>
+      <a href={`mailto:${EMAIL}`} className="pill-cta" aria-label={`Email ${EMAIL}`}>
+        <LuMail className="pill-cta-icon" aria-hidden="true" />
+        <span className="pill-cta-text">{EMAIL}</span>
+      </a>
 
-      {/* Background overlay */}
-      <div
-        className={`nav-overlay ${isMenuOpen ? 'active' : ''}`}
-        onClick={closeMenu}
-      />
-    </>
+      <span className="pill-progress" aria-hidden="true" />
+    </nav>
   );
 };
 

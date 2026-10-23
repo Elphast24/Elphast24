@@ -1,0 +1,97 @@
+/* Rules shared by About, Projects and Contact (they used to live in Hero.css). */
+.hero-gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(217, 70, 239, 0.12);
+  top: -100px;
+  right: -100px;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: rgba(168, 85, 247, 0.1);
+  bottom: -50px;
+  left: -100px;
+  animation: orbFloat 10s ease-in-out infinite reverse;
+}
+
+.hero-grid-pattern {
+  position: absolute;
+  inset: 0;
+  /* Decorative grid removed: it was drawn with gradients. */
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: all 0.35s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.btn-primary {
+  background: #d946ef;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(217, 70, 239, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(217, 70, 239, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px);
+}
+
+.btn-primary svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover svg {
+  transform: translateY(2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #1a1a2e;
+  border: 2px solid rgba(26, 26, 46, 0.15);
+}
+
+.btn-outline:hover {
+  border-color: #d946ef;
+  color: #d946ef;
+  background: rgba(217, 70, 239, 0.05);
+  transform: translateY(-3px);
+}
+
+.btn-outline:hover svg {
+  transform: translateX(4px);
+}
+
+.btn-outline svg {
+  transition: transform 0.3s ease;
+}

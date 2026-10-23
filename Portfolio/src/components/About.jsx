@@ -1,8 +1,97 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Samuel from '../assets/img/samuel.jpg';
 import '../styles/About.css';
+import '../styles/Sections.css';
+
+// Step layout geometry, in the units of a 560-wide drawing. Rows are 140 apart; the rings sit
+// just beyond the round end of each bar (right of odd steps, left of even ones) and the dotted
+// path swings from one ring to the next, bowing round the rounded ends of the bars.
+const STEP_W = 560
+const STEP_H = 560
+const ringX = (i) => (i % 2 === 0 ? 345 : 215)
+const ringY = (i) => 70 + 140 * i
+const STEP_PATH = (() => {
+  const lead = 'M272 12 C320 12 345 30 345 58'
+  const legs = [0, 1, 2]
+    .map((i) => {
+      const [x0, y0, x1, y1] = [ringX(i), ringY(i) + 12, ringX(i + 1), ringY(i + 1) - 12]
+      return `M${x0} ${y0} C${x0} ${y0 + 56} ${x1} ${y1 - 56} ${x1} ${y1}`
+    })
+    .join(' ')
+  const tail = `M215 502 C215 530 245 548 285 548`
+  return [lead, legs, tail].join(' ')
+})()
+
+const SKILL_SEGMENTS = 10;
+
+// Profile card with a notch cut from its bottom-right corner for the "Hire me" button. The button
+// is a 136x48 pill flush with the corner, so the cut is that pill grown by CTA_GAP on every side:
+// a straight top edge, then an arc concentric with the button's rounded end. Where the arc meets
+// the card's bottom edge (and the straight edge meets the right edge) the corners are rounded.
+const CTA_W = 136;
+const CTA_H = 48;
+const CTA_GAP = 10;
+
+// W, H: card size. R: outer corner radius. c, r: rounding of the two corners the cut creates.
+// cx, cy: the button's rounded-end centre, measured in from the right and bottom edges.
+// Rn: radius of the cut's arc. The inner photo frame is the same shape inset by 8px.
+const notchPath = (W, H, { R, c, r, cx, cy, Rn }) => {
+  const Cx = W - cx;
+  const Cy = H - cy;
+  const topY = Cy - Rn;
+  const dx = Math.sqrt((Rn + r) ** 2 - (cy - r) ** 2);
+  const Fx = Cx - dx;
+  const Fy = H - r;
+  const k = Rn / (Rn + r);
+  const Px = Cx + (Fx - Cx) * k;
+  const Py = Cy + (Fy - Cy) * k;
+  const f = (n) => n.toFixed(2);
+  return `path('M${R} 0 H${W - R} A${R} ${R} 0 0 1 ${W} ${R} V${f(topY - c)} A${c} ${c} 0 0 1 ${W - c} ${f(topY)} H${f(Cx)} A${Rn} ${Rn} 0 0 0 ${f(Px)} ${f(Py)} A${r} ${r} 0 0 1 ${f(Fx)} ${H} H${R} A${R} ${R} 0 0 1 0 ${H - R} V${R} A${R} ${R} 0 0 1 ${R} 0 Z')`;
+};
+
+const OUTER_CUT = { R: 36, c: 18, r: 14, cx: CTA_W - CTA_H / 2, cy: CTA_H / 2, Rn: CTA_H / 2 + CTA_GAP };
+const INNER_CUT = { R: 28, c: 10, r: 6, cx: OUTER_CUT.cx - 8, cy: OUTER_CUT.cy - 8, Rn: OUTER_CUT.Rn + 8 };
 
 const About = () => {
+  // The stack animates in once, when it first scrolls into view.
+  const stackRef = useRef(null);
+  const [stackShown, setStackShown] = useState(false);
+  const profileRef = useRef(null);
+  const [clips, setClips] = useState({ outer: undefined, inner: undefined });
+
+  useEffect(() => {
+    const node = profileRef.current;
+    if (!node || typeof ResizeObserver === 'undefined') return undefined;
+    const measure = () => {
+      const { width: w, height: h } = node.getBoundingClientRect();
+      if (!w || !h) return;
+      setClips({
+        outer: notchPath(w, h, OUTER_CUT),
+        inner: notchPath(w - 16, h - 16, INNER_CUT),
+      });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const node = stackRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') {
+      setStackShown(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setStackShown(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.3 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   const skills = [
     { name: 'React', level: 90 },
     { name: 'JavaScript', level: 85 },
@@ -11,6 +100,8 @@ const About = () => {
     { name: 'Node.js', level: 70 },
     { name: 'Figma', level: 80 },
   ];
+
+  const average = Math.round(skills.reduce((sum, skill) => sum + skill.level, 0) / skills.length);
 
   const highlights = [
     {
@@ -102,51 +193,88 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="about">
+    <section id="about" className="about about--alt">
       <div className="about-container">
         {/* Section Header */}
-        <div className="section-header">
-          <span className="section-tag">
-            <span className="tag-line"></span>
-            Get To Know Me
+        <div className="ab-header">
+          <div className="ab-header__chips">
+            <span className="ab-chip">
+              <span className="ab-chip__dot" aria-hidden="true" />
+              Get to know me
+            </span>
+          </div>
+          <h2 className="ab-title">About Me</h2>
+          <p className="ab-sub">Passionate about creating impactful digital experiences</p>
+          <span className="ab-meter" aria-hidden="true">
+            {Array.from({ length: 10 }, (_, i) => (
+              <span key={i} style={{ '--k': i }} />
+            ))}
           </span>
-          <h2 className="section-title">
-            About <span className="title-accent">Me</span>
-          </h2>
-          <p className="section-subtitle">
-            Passionate about creating impactful digital experiences
-          </p>
         </div>
 
         {/* Main Grid */}
         <div className="about-grid">
           {/* Left — Image + Info */}
           <div className="about-left">
-            <div className="about-image-wrapper">
-              <div className="image-accent-border"></div>
-              <div className="about-image">
-                <img src={Samuel} alt="Samuel Bannor Annor" />
+            <div className="ab-profile-wrap">
+            <article ref={profileRef} className="ab-profile" style={{ clipPath: clips.outer }}>
+              <div className="ab-profile__frame" style={{ clipPath: clips.inner }}>
+                <img className="ab-profile__photo" src={Samuel} alt="Samuel Bannor Annor" />
+                <div className="ab-profile__panel">
+                  <h3 className="ab-profile__name">
+                    Samuel Bannor Annor
+                    <svg className="ab-profile__check" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="12" r="11" fill="currentColor" />
+                      <path d="m7.5 12.3 3 3 6-6.3" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </h3>
+                  <p className="ab-profile__bio">
+                    Fullstack developer who builds responsive, accessible and fast web apps.
+                  </p>
+                  <div className="ab-profile__row">
+                    <ul className="ab-profile__stats">
+                      <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <rect width="20" height="14" x="2" y="7" rx="2" />
+                          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </svg>
+                        <b>5+</b>
+                        <span>years</span>
+                      </li>
+                      <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="m12 2 10 5-10 5L2 7z" />
+                          <path d="m2 12 10 5 10-5" />
+                          <path d="m2 17 10 5 10-5" />
+                        </svg>
+                        <b>15+</b>
+                        <span>projects</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="experience-badge">
-                <span className="exp-number">5+</span>
-                <span className="exp-text">
-                  Years of<br />Experience
-                </span>
-              </div>
+            </article>
+            <a className="ab-profile__cta" href="mailto:samuelbannor44@gmail.com">
+              Hire me
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </a>
             </div>
 
             {/* Info Card */}
-            <div className="about-info-card">
+            <ul className="ab-facts">
               {infoItems.map((item, i) => (
-                <div className="info-item" key={i}>
-                  <span className="info-icon">{item.icon}</span>
-                  <div>
-                    <span className="info-label">{item.label}</span>
-                    <span className="info-value">{item.value}</span>
-                  </div>
-                </div>
+                <li className="ab-fact" key={i}>
+                  <span className="ab-fact__tab">{item.icon}</span>
+                  <span className="ab-fact__body">
+                    <span className="ab-fact__label">{item.label}</span>
+                    <span className="ab-fact__value">{item.value}</span>
+                  </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Right — Content */}
@@ -169,47 +297,45 @@ const About = () => {
                 </p>
               </div>
 
-              {/* Highlights */}
-              <div className="about-highlights">
-                {highlights.map((item, i) => (
-                  <div className="highlight-item" key={i}>
-                    <span className="highlight-icon">{item.icon}</span>
-                    <div>
-                      <span className="highlight-title">{item.title}</span>
-                      <span className="highlight-desc">{item.desc}</span>
-                    </div>
+              {/* Tech stack: ring summary, segmented bars, percent readout */}
+              <div ref={stackRef} className={`ab-stack${stackShown ? ' is-shown' : ''}`}>
+                <div className="ab-stack__head">
+                  <div className="ab-ring-meter" style={{ '--avg': average }}>
+                    <svg viewBox="0 0 80 80" aria-hidden="true">
+                      <circle className="ab-ring-meter__track" cx="40" cy="40" r="34" />
+                      <circle className="ab-ring-meter__value" cx="40" cy="40" r="34" pathLength="100" />
+                    </svg>
+                    <span className="ab-ring-meter__num">{average}%</span>
                   </div>
-                ))}
-              </div>
-
-              {/* Skills */}
-              <div className="about-skills">
-                <h4 className="skills-title">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="16 18 22 12 16 6" />
-                    <polyline points="8 6 2 12 8 18" />
-                  </svg>
-                  Tech Stack
-                </h4>
-                <div className="skills-grid">
-                  {skills.map((skill, i) => (
-                    <div className="skill-item" key={i}>
-                      <div className="skill-header">
-                        <span className="skill-name">{skill.name}</span>
-                        <span className="skill-percent">{skill.level}%</span>
-                      </div>
-                      <div className="skill-bar">
-                        <div
-                          className="skill-fill"
-                          style={{
-                            '--fill-width': `${skill.level}%`,
-                            '--delay': `${i * 0.1}s`,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
+                  <div>
+                    <h4 className="ab-stack__title">Tech Stack</h4>
+                    <p className="ab-stack__sub">{skills.length} core tools, {average}% average comfort</p>
+                  </div>
                 </div>
+
+                <ul className="ab-skills">
+                  {skills.map((skill, i) => (
+                    <li className="ab-skill" key={skill.name} style={{ '--row': i }}>
+                      <div className="ab-skill__top">
+                        <span className="ab-skill__name">{skill.name}</span>
+                        <span className="ab-skill__pct">{skill.level}%</span>
+                      </div>
+                      <div
+                        className="ab-skill__bar"
+                        role="img"
+                        aria-label={`${skill.name}: ${skill.level} percent`}
+                      >
+                        {Array.from({ length: SKILL_SEGMENTS }, (_, j) => (
+                          <span
+                            key={j}
+                            className="ab-skill__seg"
+                            style={{ '--f': Math.min(1, Math.max(0, skill.level / 10 - j)), '--seg': j }}
+                          />
+                        ))}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               {/* Social Links */}
@@ -275,6 +401,50 @@ const About = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* What I bring: winding step layout */}
+        <div className="ab-process">
+          <div className="ab-process__head">
+            <h3 className="ab-process__title">What I bring to the table</h3>
+            <span className="ab-meter ab-meter--steps" aria-hidden="true">
+              {Array.from({ length: 4 }, (_, i) => (
+                <span key={i} style={{ '--k': i }} />
+              ))}
+            </span>
+          </div>
+          <div className="ab-stage">
+            <svg className="ab-path" viewBox={`0 0 ${STEP_W} ${STEP_H}`} aria-hidden="true">
+              <path d={STEP_PATH} />
+              <circle className="ab-path__end" cx="272" cy="12" r="5" />
+              <circle className="ab-path__end" cx="285" cy="548" r="5" />
+              {highlights.map((item, i) => (
+                <g key={item.title} className="ab-ring" style={{ '--n': i }}>
+                  <circle cx={ringX(i)} cy={ringY(i)} r="10" />
+                  <circle className="ab-ring__dot" cx={ringX(i)} cy={ringY(i)} r="3.5" />
+                </g>
+              ))}
+            </svg>
+            <ol className="ab-steps">
+              {highlights.map((item, i) => (
+                <li className={`ab-step ab-step--${i % 2 === 0 ? 'a' : 'b'}`} key={item.title} style={{ '--n': i }}>
+                  <div className="ab-step__card">
+                    <span className="ab-step__capsule" aria-hidden="true" />
+                    <span className="ab-step__tail" aria-hidden="true" />
+                    <span className="ab-step__disc">{item.icon}</span>
+                    <span className="ab-step__text">
+                      <strong>{item.title}</strong>
+                      <span>{item.desc}</span>
+                    </span>
+                  </div>
+                  <div className="ab-step__label" aria-hidden="true">
+                    <span>Step</span>
+                    <b>{String(i + 1).padStart(2, '0')}</b>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </div>

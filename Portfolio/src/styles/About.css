@@ -15,7 +15,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(217, 70, 239, 0.2), transparent);
+  background: rgba(217, 70, 239, 0.2);
 }
 
 .about-container {
@@ -49,7 +49,7 @@
   display: inline-block;
   width: 30px;
   height: 2px;
-  background: linear-gradient(90deg, #d946ef, #a855f7);
+  background: #d946ef;
   border-radius: 2px;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .title-accent {
-  background: linear-gradient(135deg, #d946ef, #a855f7);
+  background: #d946ef;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -161,7 +161,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #d946ef, #a855f7);
+  background: #d946ef;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -263,7 +263,7 @@
   display: inline-block;
   width: 24px;
   height: 2px;
-  background: linear-gradient(90deg, #d946ef, #a855f7);
+  background: #d946ef;
   border-radius: 2px;
 }
 
@@ -314,7 +314,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(217, 70, 239, 0.1), rgba(168, 85, 247, 0.1));
+  background: rgba(217, 70, 239, 0.1);
   border-radius: 10px;
   color: #d946ef;
   flex-shrink: 0;
@@ -404,7 +404,7 @@
 .skill-fill {
   height: 100%;
   width: var(--fill-width);
-  background: linear-gradient(90deg, #d946ef, #a855f7);
+  background: #d946ef;
   border-radius: 4px;
   transform: scaleX(0);
   transform-origin: left;

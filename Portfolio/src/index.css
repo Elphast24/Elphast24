@@ -3,7 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  --primary-gradient: linear-gradient(to right, #26018a, rgb(255, 0, 212));
             --accent-color: rgb(255, 0, 212);
             --primary-color: #26018a;
             
@@ -43,7 +42,7 @@
   left: 0;
   width: 60px;
   height: 3px;
-  background: var(--primary-gradient);
+  background: var(--primary-color);
 }
 
 .btn {
@@ -64,7 +63,7 @@
 
 .btn-primary {
   width: 12rem;
-  background: var(--primary-gradient);
+  background: var(--primary-color);
   color: var(--text-primary);
   box-shadow: var(--shadow-md);
   /* margin: auto; */

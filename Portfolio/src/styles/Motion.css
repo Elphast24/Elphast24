@@ -1,0 +1,87 @@
+/* Parallax layers for the scroll motion (see motion/scrollMotion.js). Each section gets a pale,
+   curvy ribbon in one corner behind its content; the script drifts it by animating --orb-y. */
+#about,
+#skills,
+#portfolio,
+#contact {
+  isolation: isolate;
+}
+
+#about::after,
+#skills::after,
+#portfolio::after,
+#contact::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: clamp(18rem, 30vw, 28rem);
+  aspect-ratio: 600 / 640;
+  background: url('../assets/img/shapes/squiggle.svg') center / 100% 100% no-repeat;
+  pointer-events: none;
+  transform: translateY(var(--orb-y, 0px)) scale(var(--fx, 1), var(--fy, 1));
+}
+
+/* One long line per section: it runs in from outside the section, loops, and runs out again.
+   Both ends of the drawing sit on its box edges, and each box overhangs two edges of the section
+   by 4rem or more, so the ends are always out of view (the section clips them) and the small
+   scroll drift never reveals them. The drawing enters at the top and leaves at the right;
+   flipping it moves those to other edges. */
+#about::after {
+  top: -5rem;
+  right: -4rem;
+}
+
+#skills::after {
+  --fx: -1;
+  top: -5rem;
+  left: -4rem;
+}
+
+#portfolio::after {
+  --fy: -1;
+  bottom: -5rem;
+  right: -4rem;
+}
+
+#contact::after {
+  --fx: -1;
+  --fy: -1;
+  bottom: -5rem;
+  left: -4rem;
+}
+
+/* ===== Section transitions =====
+   After About, each section is a rounded sheet that tucks under the one before it; as it slides
+   up, the previous section's content steps back (scroll-driven, see scrollMotion.js). */
+#skills,
+#portfolio,
+#contact {
+  margin-top: -3rem;
+  padding-top: calc(100px + 3rem);
+  border-radius: 3rem 3rem 0 0;
+}
+
+/* The straight hairline would cut across the rounded corners. */
+#skills::before,
+#portfolio::before,
+#contact::before {
+  display: none;
+}
+
+/* Typographic polish: balanced headings, steady digits. */
+.ab-title,
+.ct-title,
+.footer-cta-title,
+.pw-panel__body h3,
+.ab-sub,
+.ct-lead {
+  text-wrap: balance;
+}
+
+.pw-count,
+.sx-tab b,
+.ab-skill__pct,
+.ab-ring-meter__num,
+.ab-step__label b {
+  font-variant-numeric: tabular-nums;
+}

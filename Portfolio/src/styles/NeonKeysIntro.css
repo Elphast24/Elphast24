@@ -1,0 +1,224 @@
+.neon-keys-intro {
+  position: relative;
+  height: 400vh;
+  max-width: 100%;
+  overflow: clip;
+  isolation: isolate;
+  background: #000;
+}
+
+.neon-keys-intro__sticky {
+  /* Half the laptop's on-screen width, from the frame size set in NeonKeysIntro.jsx. */
+  --laptop-half: calc(min(100vw, 100svh) * 0.23);
+  --copy-ink: #0b0b14;
+  --copy-slate: #4a4d63;
+  --copy-track: rgba(11, 11, 20, 0.12);
+  --copy-display: 'Bricolage Grotesque', 'Inter', sans-serif;
+  --hero-pad-b: clamp(2rem, 5svh, 3rem);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #000;
+}
+
+.neon-keys-intro__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ========================
+   Copy either side of the laptop
+======================== */
+.laptop-copy-pair {
+  display: contents;
+}
+
+.laptop-copy {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  width: calc(50% - var(--laptop-half) - 4rem);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.laptop-copy--left {
+  right: calc(50% + var(--laptop-half) + 2.5rem);
+  text-align: right;
+}
+
+.laptop-copy--right {
+  left: calc(50% + var(--laptop-half) + 2.5rem);
+  text-align: left;
+}
+
+/* The one loud thing: a giant verb. */
+.laptop-copy__verb {
+  margin: 0;
+  font-family: var(--copy-display);
+  font-size: clamp(3.25rem, min(9vw, 17svh), 9.5rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: var(--copy-ink);
+}
+
+/* Everything else stays quiet. */
+.laptop-copy__line {
+  margin: 0;
+  max-width: 19ch;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: clamp(1.2rem, 1.9vw, 1.95rem);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  color: var(--copy-ink);
+}
+
+/* Step counter above the rule: the three stages are a sequence, so it earns its number. */
+.laptop-copy__meta {
+  display: block;
+  margin-bottom: 0.9rem;
+  font: 500 0.8rem/1 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+  color: #64648c;
+}
+
+.laptop-copy__meta b {
+  font-weight: 600;
+  color: #5a2bff;
+}
+
+/* What each stage covers, set under the sentence. */
+.laptop-copy__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.laptop-copy__tags li {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: #f1edff;
+  font: 600 0.8rem/1 var(--font-sans, 'Inter', sans-serif);
+  color: #3a12b0;
+}
+
+.laptop-copy__meta,
+.laptop-copy__tags li {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+}
+
+.laptop-copy-pair.is-active .laptop-copy__meta,
+.laptop-copy-pair.is-active .laptop-copy__tags li {
+  opacity: 1;
+  transform: none;
+  transition-duration: 0.7s;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  transition-delay: 0.35s;
+}
+
+.laptop-copy-pair.is-active .laptop-copy__tags li:nth-child(1) { transition-delay: 0.85s; }
+.laptop-copy-pair.is-active .laptop-copy__tags li:nth-child(2) { transition-delay: 0.93s; }
+.laptop-copy-pair.is-active .laptop-copy__tags li:nth-child(3) { transition-delay: 1.01s; }
+
+.laptop-copy__rule {
+  display: block;
+  width: 3.5rem;
+  height: 3px;
+  margin-bottom: 1.1rem;
+  border-radius: 3px;
+  background: #5a2bff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.laptop-copy-pair.is-active .laptop-copy__rule {
+  transform: scaleX(1);
+  transition-duration: 0.8s;
+  transition-delay: 0.45s;
+}
+
+/* No room at the sides: verb above the laptop, sentence below it, all centred. */
+@media (max-width: 900px) {
+  .laptop-copy {
+    left: 50%;
+    right: auto;
+    width: min(32rem, calc(100% - 3rem));
+    text-align: center;
+  }
+
+  .laptop-copy--left {
+    top: 13%;
+    transform: translateX(-50%);
+  }
+
+  .laptop-copy--right {
+    top: auto;
+    bottom: calc(var(--hero-pad-b) + 5.25rem);
+    transform: translateX(-50%);
+  }
+
+  .laptop-copy__verb {
+    font-size: clamp(3rem, 17vw, 5.5rem);
+  }
+
+  /* The counter and tags are for wide screens; on a phone the sentence is enough. */
+  .laptop-copy__meta,
+  .laptop-copy__tags {
+    display: none;
+  }
+
+  .laptop-copy__line {
+    max-width: 26ch;
+    margin-inline: auto;
+    font-size: clamp(1rem, 4.2vw, 1.25rem);
+  }
+
+  .laptop-copy__rule {
+    margin-inline: auto;
+    transform-origin: center;
+  }
+}
+
+/* Clear the mobile dock at the bottom edge. */
+@media (max-width: 640px) {
+  .neon-keys-intro__sticky {
+    --hero-pad-b: calc(6.25rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-keys-intro {
+    height: 300vh;
+  }
+
+  .laptop-copy__rule {
+    transition-duration: 0.01ms;
+    transition-delay: 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laptop-copy__meta,
+  .laptop-copy__tags li,
+  .laptop-copy-pair.is-active .laptop-copy__tags li {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}
